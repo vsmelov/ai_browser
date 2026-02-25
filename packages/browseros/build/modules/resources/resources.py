@@ -11,6 +11,27 @@ from ...common.context import Context
 from ...common.utils import log_info, log_success, log_error, log_warning, get_platform
 
 
+def _write_browseros_server_stub(dst_path: Path) -> None:
+    """Create placeholder so GN copy("browseros_resources_copy") has something to copy.
+
+    When R2 is not configured, the real binary is never downloaded. The BUILD.gn
+    in chrome/browser/browseros/server/ copies the whole resources/ dir into the
+    build output; if that dir is missing, ninja fails. We create the dir and a
+    stub file with the expected name so the build succeeds. At runtime the server
+    will not function until a real browseros_server binary is placed here or R2
+    is configured.
+    """
+    dst_path.parent.mkdir(parents=True, exist_ok=True)
+    if get_platform() == "windows":
+        dst_path.write_bytes(b"")
+    else:
+        stub = "#!/bin/sh\n# Placeholder: real binary from R2 or add manually\n"
+        stub += "echo 'BrowserOS server placeholder - add binary to enable MCP/CDP' >&2\n"
+        stub += "exit 0\n"
+        dst_path.write_text(stub, encoding="utf-8")
+        dst_path.chmod(dst_path.stat().st_mode | 0o755)
+
+
 class ResourcesModule(CommandModule):
     produces = []
     requires = []
@@ -137,6 +158,11 @@ def copy_resources_impl(ctx: Context, commit_each: bool = False) -> bool:
                         )
                 else:
                     log_warning(f"    Source file not found: {source}")
+                    # Ensure browseros_server resources dir exists so GN copy rule can run (no R2 = no binary)
+                    if "browseros/server/resources/bin" in destination:
+                        dst_base.parent.mkdir(parents=True, exist_ok=True)
+                        _write_browseros_server_stub(dst_base)
+                        log_info(f"    ✓ Created placeholder so build can proceed (no binary from R2)")
 
         except Exception as e:
             log_error(f"    Error: {e}")

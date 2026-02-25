@@ -22,3 +22,8 @@
 nxtscape-cli-access.json
 gclient.json
 .env
+
+# Build / cache
+.cache/
+packages/browseros/out.log
+packages/browseros/resources/binaries/browseros-server*

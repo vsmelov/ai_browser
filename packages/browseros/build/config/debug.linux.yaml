@@ -1,0 +1,36 @@
+# BrowserOS Linux Debug Build Configuration
+#
+# For Linux only. Run on Linux; package_linux validates IS_LINUX() and will fail on macOS/Windows.
+# Debug: faster compile, symbols for debugging, no upload.
+# Use --chromium-src or CHROMIUM_SRC for Chromium source path.
+
+build:
+  type: debug
+  architecture: x64  # Linux x64 (use --arch arm64 if needed)
+
+gn_flags:
+  file: build/config/gn/flags.linux.debug.gn
+
+# Explicit module execution order
+modules:
+  # Phase 1: Setup (no clean for faster iteration)
+  - git_setup
+
+  # Phase 2: Patches & Resources
+  - download_resources
+  - resources
+  - bundled_extensions
+  - chromium_replace
+  - string_replaces
+  - patches
+
+  # Phase 3: Build
+  - configure
+  - compile
+
+  # Phase 4: Package (no signing for debug, no upload)
+  - package_linux
+
+# Notification settings
+notifications:
+  slack: false

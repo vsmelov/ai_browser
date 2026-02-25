@@ -112,10 +112,18 @@ def _get_package_module():
         sys.exit(1)
 
 
+def _get_setup_modules():
+    """Setup phase: clean + git_setup; sparkle_setup only on macOS (Sparkle is macOS-only)."""
+    modules = ["clean", "git_setup"]
+    if IS_MACOS():
+        modules.append("sparkle_setup")
+    return modules
+
+
 # Fixed execution order - flags enable/disable phases, order is always the same
 EXECUTION_ORDER = [
-    # Phase 1: Setup & Clean
-    ("setup", ["clean", "git_setup", "sparkle_setup"]),
+    # Phase 1: Setup & Clean (sparkle_setup only on macOS)
+    ("setup", _get_setup_modules()),
     # Phase 2: Patches & Resources
     (
         "prep",

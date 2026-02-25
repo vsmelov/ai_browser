@@ -117,24 +117,26 @@ cd packages/browseros
 
 # Debug build (for development)
 # macOS
-python build/build.py --config build/config/debug.macos.yaml --chromium-src /path/to/chromium/src --build
+python -m build.browseros build --config build/config/debug.macos.yaml --chromium-src /path/to/chromium/src --build
 
 # Linux
-python build/build.py --config build/config/debug.linux.yaml --chromium-src /path/to/chromium/src --build
+python -m build.browseros build --config build/config/debug.linux.yaml --chromium-src /path/to/chromium/src --build
 
 # Windows
-python build/build.py --config build/config/debug.windows.yaml --chromium-src /path/to/chromium/src --build
+python -m build.browseros build --config build/config/debug.windows.yaml --chromium-src /path/to/chromium/src --build
 
 # Release build (for production)
 # macOS
-python build/build.py --config build/config/release.macos.yaml --chromium-src /path/to/chromium/src --build
+python -m build.browseros build --config build/config/release.macos.yaml --chromium-src /path/to/chromium/src --build
 
 # Linux
-python build/build.py --config build/config/release.linux.yaml --chromium-src /path/to/chromium/src --build
+python -m build.browseros build --config build/config/release.linux.yaml --chromium-src /path/to/chromium/src --build
 
 # Windows
-python build/build.py --config build/config/release.windows.yaml --chromium-src /path/to/chromium/src --build
+python -m build.browseros build --config build/config/release.windows.yaml --chromium-src /path/to/chromium/src --build
 ```
+
+(Alternatively, after `pip install -e .` you can use the `browseros` command instead of `python -m build.browseros`.)
 
 The build typically takes 1-3 hours on modern hardware (M4 Max, Ryzen 9, etc.).
 

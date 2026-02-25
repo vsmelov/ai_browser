@@ -27,6 +27,12 @@ class GitSetupModule(CommandModule):
         log_info("📥 Fetching all tags from remote...")
         run_command(["git", "fetch", "--tags", "--force"], cwd=ctx.chromium_src)
 
+        # log_info(f"📥 Fetching tag {ctx.chromium_version} from remote...")
+        # run_command(
+        #     ["git", "fetch", "origin", f"refs/tags/{ctx.chromium_version}:refs/tags/{ctx.chromium_version}", "--no-tags"],
+        #     cwd=ctx.chromium_src,
+        # )
+
         self._verify_tag_exists(ctx)
 
         log_info(f"🔀 Checking out tag: {ctx.chromium_version}")

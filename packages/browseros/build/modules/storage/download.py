@@ -44,20 +44,23 @@ class DownloadResourcesModule(CommandModule):
                 "boto3 library not installed - run: pip install boto3"
             )
 
-        if not context.env.has_r2_config():
-            raise ValidationError(
-                "R2 configuration not set. Required env vars: "
-                "R2_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY"
-            )
-
         config_path = context.get_download_resources_config()
         if not config_path.exists():
             raise ValidationError(
                 f"Download configuration file not found: {config_path}"
             )
 
+        # R2 optional: when not set, execute() skips downloads (local build without credentials)
+
     def execute(self, context: Context) -> None:
         log_info("\nDownloading resources from R2...")
+
+        if not context.env.has_r2_config():
+            log_warning(
+                "R2 not configured. Skipping download; place browseros-server binary manually in "
+                "resources/binaries/browseros_server/ if needed."
+            )
+            return
 
         config_path = context.get_download_resources_config()
         with open(config_path, "r") as f:

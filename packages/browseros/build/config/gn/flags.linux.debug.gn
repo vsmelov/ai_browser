@@ -15,10 +15,8 @@ clang_use_chrome_plugins = false
 fatal_linker_warnings = false
 
 # Features
-enable_nacl = false
 enable_widevine = true
 enable_hangout_services_extension = false
-enable_js_type_check = false
 disable_fieldtrial_testing_config = true
 use_system_libffi = false
 google_api_key = ""
@@ -43,9 +41,6 @@ exclude_unwind_tables = false
 # Security
 use_unofficial_version_number = false
 treat_warnings_as_errors = false
-
-# Sandbox
-use_suid_sandbox = true
 
 # Other
 v8_enable_backtrace = true
