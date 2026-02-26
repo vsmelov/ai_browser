@@ -14,16 +14,16 @@ PLATFORM_DISPLAY_NAMES = {"macos": "macOS", "win": "Windows", "linux": "Linux"}
 
 DOWNLOAD_PATH_MAPPING = {
     "macos": {
-        "arm64": "download/BrowserOS-arm64.dmg",
-        "x64": "download/BrowserOS-x86_64.dmg",
-        "universal": "download/BrowserOS.dmg",
+        "arm64": "download/PonyAI-arm64.dmg",
+        "x64": "download/PonyAI-x86_64.dmg",
+        "universal": "download/PonyAI.dmg",
     },
     "win": {
-        "x64_installer": "download/BrowserOS_installer.exe",
+        "x64_installer": "download/PonyAI_installer.exe",
     },
     "linux": {
-        "x64_appimage": "download/BrowserOS.AppImage",
-        "x64_deb": "download/browseros.deb",
+        "x64_appimage": "download/PonyAI.AppImage",
+        "x64_deb": "download/ponyai.deb",
     },
 }
 
@@ -131,7 +131,7 @@ def generate_appcast_item(
     length = artifact.get("sparkle_length", artifact.get("size", 0))
 
     return f"""<item>
-  <title>BrowserOS - {version}</title>
+  <title>PonyAI - {version}</title>
   <description sparkle:format="plain-text">
   </description>
   <sparkle:version>{sparkle_version}</sparkle:version>
@@ -155,7 +155,7 @@ def generate_release_notes(version: str, metadata: Dict[str, Dict]) -> str:
             chromium_version = metadata[platform].get("chromium_version", "unknown")
             break
 
-    notes = f"""## BrowserOS v{version}
+    notes = f"""## PonyAI v{version}
 
 Chromium version: {chromium_version}
 

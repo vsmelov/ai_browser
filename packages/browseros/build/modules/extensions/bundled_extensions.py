@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-"""Bundled Extensions Module - Download and bundle extensions from CDN manifest"""
+"""Bundled Extensions Module - Use local extensions or download from CDN manifest"""
 
 import json
+import shutil
 import sys
 import xml.etree.ElementTree as ET
 from pathlib import Path
@@ -11,7 +12,7 @@ import requests
 
 from ...common.context import Context
 from ...common.module import CommandModule, ValidationError
-from ...common.utils import log_info, log_success, log_error
+from ...common.utils import log_info, log_success, log_error, log_warning
 
 
 class ExtensionInfo(NamedTuple):
@@ -35,14 +36,17 @@ class BundledExtensionsModule(CommandModule):
             )
 
     def execute(self, ctx: Context) -> None:
-        log_info("\n📦 Bundling extensions from CDN manifest...")
-
-        manifest_url = ctx.get_extensions_manifest_url()
         output_dir = self._get_output_dir(ctx)
-
         output_dir.mkdir(parents=True, exist_ok=True)
         log_info(f"  Output: {output_dir}")
 
+        local_dir = ctx.root_dir / "resources" / "extensions"
+        if self._use_local_extensions(local_dir, output_dir):
+            log_success("Bundled extensions from local resources/extensions/")
+            return
+
+        log_info("\n📦 Bundling extensions from CDN manifest...")
+        manifest_url = ctx.get_extensions_manifest_url()
         extensions = self._fetch_and_parse_manifest(manifest_url)
         if not extensions:
             raise RuntimeError("No extensions found in manifest")
@@ -59,6 +63,24 @@ class BundledExtensionsModule(CommandModule):
     def _get_output_dir(self, ctx: Context) -> Path:
         """Get the bundled extensions output directory in Chromium source"""
         return ctx.chromium_src / "chrome" / "browser" / "browseros" / "bundled_extensions"
+
+    def _use_local_extensions(self, local_dir: Path, output_dir: Path) -> bool:
+        """If resources/extensions/ has bundled_extensions.json and .crx files, copy them and return True."""
+        if not local_dir.is_dir():
+            return False
+        json_path = local_dir / "bundled_extensions.json"
+        if not json_path.is_file():
+            return False
+        crx_files = list(local_dir.glob("*.crx"))
+        if not crx_files:
+            log_warning("  resources/extensions/ has no .crx files; falling back to CDN")
+            return False
+        log_info("\n📦 Using local extensions from resources/extensions/")
+        for f in local_dir.iterdir():
+            if f.is_file():
+                shutil.copy2(f, output_dir / f.name)
+                log_info(f"    Copied {f.name}")
+        return True
 
     def _fetch_and_parse_manifest(self, url: str) -> List[ExtensionInfo]:
         """Fetch XML manifest and parse extension information"""

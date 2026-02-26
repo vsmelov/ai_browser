@@ -160,10 +160,11 @@ def copy_browser_files(
     return True
 
 
-def create_desktop_file(apps_dir: Path, exec_path: str) -> Path:
+def create_desktop_file(ctx: Context, apps_dir: Path, exec_path: str) -> Path:
     """Create .desktop file with specified Exec path.
 
     Args:
+        ctx: Build context (for app name)
         apps_dir: Directory where .desktop file should be created
         exec_path: Full path for Exec= line in desktop file
 
@@ -174,7 +175,7 @@ def create_desktop_file(apps_dir: Path, exec_path: str) -> Path:
 
     desktop_content = f"""[Desktop Entry]
 Version=1.0
-Name=BrowserOS
+Name={ctx.BROWSEROS_APP_BASE_NAME}
 GenericName=Web Browser
 Comment=Browse the World Wide Web
 Exec={exec_path} %U
@@ -182,11 +183,11 @@ Terminal=false
 Type=Application
 Categories=Network;WebBrowser;
 MimeType=text/html;text/xml;application/xhtml+xml;application/xml;application/vnd.mozilla.xul+xml;application/rss+xml;application/rdf+xml;image/gif;image/jpeg;image/png;x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/ftp;x-scheme-handler/chrome;video/webm;application/x-xpinstall;
-Icon=browseros
+Icon={ctx.BROWSEROS_APP_NAME}
 StartupWMClass=chromium-browser
 """
 
-    desktop_file = Path(join_paths(apps_dir, "browseros.desktop"))
+    desktop_file = Path(join_paths(apps_dir, f"{ctx.BROWSEROS_APP_NAME}.desktop"))
     desktop_file.write_text(desktop_content)
     log_info("  ✓ Created desktop file")
     return desktop_file
@@ -207,7 +208,7 @@ def copy_icon(ctx: Context, icons_dir: Path) -> bool:
         log_warning("  ⚠ Icon not found at resources/icons/product_logo.png")
         return False
 
-    icon_dest = Path(join_paths(icons_dir, "256x256", "apps", "browseros.png"))
+    icon_dest = Path(join_paths(icons_dir, "256x256", "apps", f"{ctx.BROWSEROS_APP_NAME}.png"))
     icon_dest.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy2(icon_src, icon_dest)
     log_info("  ✓ Copied icon")
@@ -223,7 +224,7 @@ def prepare_appdir(ctx: Context, appdir: Path) -> bool:
     """Prepare the AppDir structure for AppImage"""
     log_info("📁 Preparing AppDir structure...")
 
-    app_root = join_paths(appdir, "opt", "browseros")
+    app_root = join_paths(appdir, "opt", ctx.BROWSEROS_APP_NAME)
     usr_share = join_paths(appdir, "usr", "share")
     icons_dir = join_paths(usr_share, "icons", "hicolor")
     apps_dir = join_paths(usr_share, "applications")
@@ -234,7 +235,7 @@ def prepare_appdir(ctx: Context, appdir: Path) -> bool:
 
     # Create desktop file
     desktop_file = create_desktop_file(
-        apps_dir, f"/opt/browseros/{ctx.BROWSEROS_APP_NAME}"
+        apps_dir, f"/opt/{ctx.BROWSEROS_APP_NAME}/{ctx.BROWSEROS_APP_NAME}"
     )
 
     # Copy icon
@@ -242,26 +243,26 @@ def prepare_appdir(ctx: Context, appdir: Path) -> bool:
     copy_icon(ctx, icons_dir)
 
     # AppImage-specific: Copy desktop file to root and update Exec line
-    appdir_desktop = Path(join_paths(appdir, "browseros.desktop"))
+    appdir_desktop = Path(join_paths(appdir, f"{ctx.BROWSEROS_APP_NAME}.desktop"))
     shutil.copy2(desktop_file, appdir_desktop)
     desktop_content = appdir_desktop.read_text()
     desktop_content = desktop_content.replace(
-        f"Exec=/opt/browseros/{ctx.BROWSEROS_APP_NAME} %U", "Exec=AppRun %U"
+        f"Exec=/opt/{ctx.BROWSEROS_APP_NAME}/{ctx.BROWSEROS_APP_NAME} %U", "Exec=AppRun %U"
     )
     appdir_desktop.write_text(desktop_content)
 
     # AppImage-specific: Copy icon to root
     if icon_src.exists():
-        appdir_icon = Path(join_paths(appdir, "browseros.png"))
+        appdir_icon = Path(join_paths(appdir, f"{ctx.BROWSEROS_APP_NAME}.png"))
         shutil.copy2(icon_src, appdir_icon)
 
     # AppImage-specific: Create AppRun script
     apprun_content = f"""#!/bin/sh
 THIS="$(readlink -f "${{0}}")"
 HERE="$(dirname "${{THIS}}")"
-export LD_LIBRARY_PATH="${{HERE}}"/opt/browseros:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH="${{HERE}}"/opt/{ctx.BROWSEROS_APP_NAME}:$LD_LIBRARY_PATH
 export CHROME_WRAPPER="${{THIS}}"
-"${{HERE}}"/opt/browseros/{ctx.BROWSEROS_APP_NAME} "$@"
+"${{HERE}}"/opt/{ctx.BROWSEROS_APP_NAME}/{ctx.BROWSEROS_APP_NAME} "$@"
 """
 
     apprun_file = Path(join_paths(appdir, "AppRun"))
@@ -349,16 +350,16 @@ def create_appimage(ctx: Context, appdir: Path, output_path: Path) -> bool:
 
 
 def create_launcher_script(ctx: Context, bin_dir: Path) -> None:
-    """Create launcher script in /usr/bin/browseros."""
+    """Create launcher script in /usr/bin/<app_name>."""
     bin_dir.mkdir(parents=True, exist_ok=True)
 
     launcher_content = f"""#!/bin/sh
-# BrowserOS launcher script
-export LD_LIBRARY_PATH=/usr/lib/browseros:$LD_LIBRARY_PATH
-exec /usr/lib/browseros/{ctx.BROWSEROS_APP_NAME} "$@"
+# {ctx.BROWSEROS_APP_BASE_NAME} launcher script
+export LD_LIBRARY_PATH=/usr/lib/{ctx.BROWSEROS_APP_NAME}:$LD_LIBRARY_PATH
+exec /usr/lib/{ctx.BROWSEROS_APP_NAME}/{ctx.BROWSEROS_APP_NAME} "$@"
 """
 
-    launcher_path = Path(join_paths(bin_dir, "browseros"))
+    launcher_path = Path(join_paths(bin_dir, ctx.BROWSEROS_APP_NAME))
     launcher_path.write_text(launcher_content)
     launcher_path.chmod(0o755)
     log_info("  ✓ Created launcher script")
@@ -375,16 +376,16 @@ def create_control_file(ctx: Context, debian_dir: Path) -> None:
     # Architecture mapping
     deb_arch = "amd64" if ctx.architecture == "x64" else "arm64"
 
-    control_content = f"""Package: browseros
+    control_content = f"""Package: {ctx.BROWSEROS_APP_NAME}
 Version: {version}
 Section: web
 Priority: optional
 Architecture: {deb_arch}
 Depends: libc6 (>= 2.31), libglib2.0-0, libnss3, libnspr4, libx11-6, libatk1.0-0, libatk-bridge2.0-0, libcups2, libasound2, libdrm2, libgbm1, libpango-1.0-0, libcairo2, libudev1, libxcomposite1, libxdamage1, libxrandr2, libxkbcommon0, libgtk-3-0
-Maintainer: BrowserOS Team <support@browseros.com>
-Homepage: https://www.browseros.com/
-Description: BrowserOS - The open source agentic browser
- BrowserOS is a privacy-focused web browser built on Chromium,
+Maintainer: PonyAI Team <support@ponyai.com>
+Homepage: https://www.ponyai.com/
+Description: {ctx.BROWSEROS_APP_BASE_NAME} - The open source agentic browser
+ {ctx.BROWSEROS_APP_BASE_NAME} is a privacy-focused web browser built on Chromium,
  designed for modern web browsing with AI capabilities.
 """
 
@@ -399,13 +400,13 @@ def create_postinst_script(debian_dir: Path) -> None:
     Debian policy prohibits setting SUID in package files directly,
     so we set it in postinst after installation.
     """
-    postinst_content = """#!/bin/sh
-# Post-installation script for BrowserOS
+    postinst_content = f"""#!/bin/sh
+# Post-installation script for {ctx.BROWSEROS_APP_BASE_NAME}
 set -e
 
 # Set SUID bit on chrome_sandbox for sandboxing support
-if [ -f /usr/lib/browseros/chrome_sandbox ]; then
-    chmod 4755 /usr/lib/browseros/chrome_sandbox
+if [ -f /usr/lib/{ctx.BROWSEROS_APP_NAME}/chrome_sandbox ]; then
+    chmod 4755 /usr/lib/{ctx.BROWSEROS_APP_NAME}/chrome_sandbox
 fi
 
 exit 0
@@ -451,14 +452,14 @@ def prepare_debdir(ctx: Context, debdir: Path) -> bool:
     create_launcher_script(ctx, bin_dir)
 
     # Create desktop file
-    create_desktop_file(apps_dir, "/usr/bin/browseros")
+    create_desktop_file(ctx, apps_dir, f"/usr/bin/{ctx.BROWSEROS_APP_NAME}")
 
     # Copy icon
     copy_icon(ctx, icons_dir)
 
     # Create DEBIAN metadata files
     create_control_file(ctx, debian_dir)
-    create_postinst_script(debian_dir)
+    create_postinst_script(ctx, debian_dir)
 
     log_success("✓ .deb directory prepared")
     return True

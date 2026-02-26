@@ -232,5 +232,15 @@ def safe_rmtree(path: Union[str, Path]) -> None:
         # Fall back to rmtree with error handler
         shutil.rmtree(path, onerror=handle_remove_readonly)
     else:
-        # On Unix-like systems, regular rmtree works fine
-        shutil.rmtree(path)
+        # On Unix: try rmtree first; on NFS (ENOTEMPTY/EBUSY) fall back to rm -rf
+        try:
+            shutil.rmtree(path)
+        except OSError as e:
+            # 39=ENOTEMPTY, 16=EBUSY — common on NFS or when dir is in use
+            if e.errno in (39, 16):
+                try:
+                    run_command(["rm", "-rf", str(path)], check=True)
+                except Exception:
+                    raise e
+            else:
+                raise

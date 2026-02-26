@@ -58,7 +58,8 @@ index 0000000000000..69b8e5a79f6fd
 +<!DOCTYPE html>
 +<html lang="en">
 +<head>
-+<title>BrowserOS — First Run</title>
++<title>PonyAI — First Run</title>
++<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23fb651f'%3E%3Cpath d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'/%3E%3C/svg%3E" type="image/svg+xml">
 +<meta charset="UTF-8">
 + <meta name="color-scheme" content="light dark">
 +<style>
@@ -196,11 +197,11 @@ index 0000000000000..69b8e5a79f6fd
 +<body>
 +<section class="hero">
 + <h1>The Open Source <span class="accent">Agentic</span> <span class="accent">Browser</span></h1>
-+ <p>BrowserOS is an AI-powered browser that lets you build and run agents to automate tedious tasks. It looks like Chrome but reimagined for the AI era.</p>
++ <p>PonyAI is an AI-powered browser that lets you build and run agents to automate tedious tasks. It looks like Chrome but reimagined for the AI era.</p>
 +</section>
 +
 +<section>
-+ <div class="section-head"><span class="label">🚀 Getting Started</span></div>
++ <div class="section-head"><span class="label"><span class="hicon key" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" height="22" viewBox="0 -960 960 960" width="22" fill="var(--accent)"><path d="M480-120 200-272v-240L40-600l440-240 440 240v320h-80v-276l-80 43v240L480-120Zm0-108 200-108v-151L480-420 280-579v151l200 108Zm-80 58v-152L200-479v152l200 109Zm160 0 200-109v-152L520-322v152Zm-80-308 240-128-240-132-240 132 240 128Zm0-199 200-109v-152l-200 109-200-109v152l200 109Z"/></svg></span> Getting Started</span></div>
 + <div style="text-align:center;">
 +  <a class="btn btn-accent" href="https://bit.ly/BrowserOS-setup">Quick start guide</a>
 +  <a class="btn btn-outline" href="https://github.com/nxtscape/nxtscape">
@@ -249,12 +250,12 @@ index 0000000000000..69b8e5a79f6fd
 +   </span>
 +   Step 3: All done!
 +  </div>
-+  <div class="muted" style="margin-top:.4rem">You're ready to use BrowserOS, have fun! This page can be always accessed again at <a href="chrome://browseros-first-run"><code>chrome://browseros-first-run</code></a></div>
++  <div class="muted" style="margin-top:.4rem">You're ready to use PonyAI, have fun! This page can be always accessed again at <a href="chrome://browseros-first-run"><code>chrome://browseros-first-run</code></a></div>
 + </div>
 +</section>
 +
 +<section>
-+ <div class="section-head"><span class="label">✨ Key Features</span></div>
++ <div class="section-head"><span class="label"><span class="hicon" aria-hidden="true" style="color:var(--accent)"><svg xmlns="http://www.w3.org/2000/svg" height="22" viewBox="0 0 24 24" width="22" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></span> Key Features</span></div>
 + <div class="grid features" style="margin-top:1rem;">
 +  <div class="card">
 +   <h3>
@@ -297,7 +298,7 @@ index 0000000000000..69b8e5a79f6fd
 +</section>
 +
 +<section>
-+ <div class="section-head"><span class="label">🤝 Join our <span class="accent">community</span></span></div>
++ <div class="section-head"><span class="label"><span class="hicon check" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" height="22" viewBox="0 -960 960 960" width="22" fill="var(--accent-purple)"><path d="M0-240v-63q0-43 44-70t116-27q13 0 25 .5t23 2.5q-14 21-21 44t-7 50v63q0 25 17.5 42.5T200-240H0Zm240 0v-63q0-25 17.5-42.5T300-366q32 0 58 15t44 41q-5 2-9.5 3t-9.5 1H240Zm480 0v-63q0-25-17.5-42.5T660-366q-32 0-58 15t-44 41q5 2 9.5 3t9.5 1H720Zm-240-240q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47Zm240 0q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47Zm-480 0q-66 0-113-47T40-640q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113T480-480Zm240 0q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47Z"/></svg></span> Join our <span class="accent">community</span></span></div>
 + <p class="links" style="text-align:center; margin-top:1rem;">
 +  <a href="https://discord.gg/YKwjt5vuKr">
 +   <span class="icon" aria-hidden="true">

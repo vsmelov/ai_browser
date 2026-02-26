@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Windows packaging module for BrowserOS"""
+"""Windows packaging module for PonyAI"""
 
 import shutil
 import zipfile

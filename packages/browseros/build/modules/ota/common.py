@@ -172,10 +172,10 @@ def generate_server_appcast(
         - If existing has different version or is None: use only new artifacts
     """
     if channel == "alpha":
-        title = "BrowserOS Server (Alpha)"
+        title = "PonyAI Server (Alpha)"
         appcast_url = "https://cdn.browseros.com/appcast-server.alpha.xml"
     else:
-        title = "BrowserOS Server"
+        title = "PonyAI Server"
         appcast_url = "https://cdn.browseros.com/appcast-server.xml"
 
     # Determine pubDate and merged artifacts

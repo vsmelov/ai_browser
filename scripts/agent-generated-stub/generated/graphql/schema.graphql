@@ -1,0 +1,4 @@
+# Minimal stub so @0no-co/graphqlsp does not fail when building without codegen.
+# Real schema is produced by codegen when GRAPHQL_SCHEMA_URL or GRAPHQL_SCHEMA_PATH is set.
+schema { query: Query }
+type Query { _: Boolean }

@@ -154,7 +154,7 @@ class BuildConfig:
         # App names - will be set based on platform
         self.CHROMIUM_APP_NAME = ""
         self.BROWSEROS_APP_NAME = ""
-        self.BROWSEROS_APP_BASE_NAME = "BrowserOS"
+        self.BROWSEROS_APP_BASE_NAME = "PonyAI"
 
         # Third party versions
         self.SPARKLE_VERSION = "2.7.0"
@@ -199,7 +199,7 @@ class Context:
     # App names - will be set based on platform
     CHROMIUM_APP_NAME: str = ""
     BROWSEROS_APP_NAME: str = ""
-    BROWSEROS_APP_BASE_NAME: str = "BrowserOS"  # Base name without extension
+    BROWSEROS_APP_BASE_NAME: str = "PonyAI"  # Base name without extension
 
     # Third party
     SPARKLE_VERSION: str = "2.7.0"

@@ -25,9 +25,9 @@ index 0000000000000..476d761245673
 +  return base::CommandLine::ForCurrentProcess()->HasSwitch(kDisableUrlOverrides);
 +}
 +
-+// Agent V2 Extension ID
++// Agent V2 Extension ID (PonyAI build: ID from packed .crx when using agent-pack.pem)
 +inline constexpr char kAgentV2ExtensionId[] =
-+    "bflpfmnmnokmjhmgnolecpppdbdophmk";
++    "hppcdefeenkjjbamdggkaaempenbljkn";
 +
 +// BrowserOS extension config URLs
 +inline constexpr char kBrowserOSConfigUrl[] =
