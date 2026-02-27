@@ -222,4 +222,13 @@ Popup расширения («Assistant», «BrowserOS», иконки) **не �
 | Релизные пути и тексты | `packages/browseros/build/modules/release/common.py` |
 | OTA (сервер) | `packages/browseros/build/modules/ota/common.py` |
 
-После изменений достаточно пересобрать с `--prep --build`; при смене только иконок иногда достаточно `--prep --build` без полного `--setup`.
+После изменений пересобери с `--prep --build`. **Если при этом патчи падают** («does not match index») — дерево Chromium уже пропатчено. Тогда для смены **только логотипов/ресурсов** не трогай патчи, запусти только копирование ресурсов и сборку:
+
+```bash
+cd ~/knx-west/aib/ai_browser/packages/browseros
+uv run browseros build --chromium-src /path/to/chromium/src \
+  --modules download_resources,resources,bundled_extensions,chromium_replace,string_replaces,configure,compile \
+  --build-type debug
+```
+
+(подставь свой путь к `chromium/src`). Так патчи не применяются заново, обновляются только иконки/строки и идёт инкрементальная компиляция — обычно несколько минут, а не 2 часа. Полный `--setup --prep --build` нужен только когда дерево сломано или сменили версию Chromium.

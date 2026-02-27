@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 """Clean module for BrowserOS build system"""
 
+import os
+import tempfile
+
 from ...common.module import CommandModule, ValidationError
 from ...common.context import Context
-from ...common.utils import run_command, log_info, log_success, safe_rmtree
+from ...common.utils import run_command, log_info, log_success, log_warning, safe_rmtree
 
 
 class CleanModule(CommandModule):
@@ -36,23 +39,51 @@ class CleanModule(CommandModule):
         log_success("Cleaned Sparkle build directory")
 
     def _git_reset(self, ctx: Context) -> None:
-        run_command(["git", "reset", "--hard", "HEAD"], cwd=ctx.chromium_src)
+        # Use a temp index on local disk (e.g. /tmp) to avoid "Could not write new index file"
+        # when the repo is on NFS or a slow/shared filesystem.
+        import shutil
 
-        log_info("🧹 Running git clean with exclusions...")
-        run_command(
-            [
-                "git",
-                "clean",
-                "-fdx",
-                "chrome/",
-                "components/",
-                "--exclude=third_party/",
-                "--exclude=build_tools/",
-                "--exclude=uc_staging/",
-                "--exclude=buildtools/",
-                "--exclude=tools/",
-                "--exclude=build/",
-            ],
-            cwd=ctx.chromium_src,
-        )
-        log_success("Git reset and clean complete")
+        fd, index_tmp = tempfile.mkstemp(prefix="chromium-index-", suffix=".git-index")
+        os.close(fd)
+        git_index = ctx.chromium_src / ".git" / "index"
+        if git_index.exists():
+            shutil.copy2(git_index, index_tmp)
+        env = os.environ.copy()
+        env["GIT_INDEX_FILE"] = index_tmp
+        if os.environ.get("CLEAN_GIT_VERBOSE"):
+            env["GIT_TRACE"] = "1"
+            env["GIT_TRACE_PACKET"] = "1"
+            log_info("  (CLEAN_GIT_VERBOSE=1: git trace enabled)")
+        try:
+            run_command(["git", "reset", "--hard", "HEAD"], cwd=ctx.chromium_src, env=env)
+
+            log_info("🧹 Running git clean with exclusions...")
+            run_command(
+                [
+                    "git",
+                    "clean",
+                    "-fdx",
+                    "chrome/",
+                    "components/",
+                    "--exclude=third_party/",
+                    "--exclude=build_tools/",
+                    "--exclude=uc_staging/",
+                    "--exclude=buildtools/",
+                    "--exclude=tools/",
+                    "--exclude=build/",
+                ],
+                cwd=ctx.chromium_src,
+                env=env,
+            )
+            # Copy temp index back so .git/index is consistent (needed for later git operations).
+            try:
+                shutil.copy2(index_tmp, git_index)
+            except OSError as e:
+                log_warning(f"  Could not copy index to .git/index: {e}")
+                log_warning("  Repo may still work; if patches fail, try running from local disk.")
+            log_success("Git reset and clean complete")
+        finally:
+            try:
+                os.unlink(index_tmp)
+            except OSError:
+                pass

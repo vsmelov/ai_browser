@@ -17,10 +17,11 @@ index 0000000000000..baac689c55368
 +# 3. Add the .crx file to the sources list below
 +# 4. Ensure the extension's manifest.json has an update_url for future updates
 +
-+# PonyAI: only Agent is bundled from resources/extensions/; list only files present there
-+_bundled_extensions_sources = [
+++_bundled_extensions_sources = [
 +  "bundled_extensions.json",
-+  "hppcdefeenkjjbamdggkaaempenbljkn.crx",  # Agent V2 (PonyAI)
++  "bflpfmnmnokmjhmgnolecpppdbdophmk.crx",  # Agent V2
++  "adlpneommgkgeanpaekgoaolcpncohkf.crx",  # Bug Reporter
++  "nlnihljpboknmfagkikhkdblbedophja.crx",  # Controller
 +]
 +
 +if (!is_mac) {

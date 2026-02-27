@@ -43,7 +43,7 @@ from ..modules.patches.series_patches import SeriesPatchesModule
 from ..modules.resources.chromium_replace import ChromiumReplaceModule
 from ..modules.resources.string_replaces import StringReplacesModule
 from ..modules.resources.resources import ResourcesModule
-from ..modules.extensions import BundledExtensionsModule
+from ..modules.extensions import BundledExtensionsModule, WriteBundledExtensionsBuildGnModule
 from ..modules.storage import UploadModule, DownloadResourcesModule
 
 # Platform-specific modules (imported unconditionally - validation handles platform checks)
@@ -69,6 +69,7 @@ AVAILABLE_MODULES = {
     "download_resources": DownloadResourcesModule,  # Download binaries from R2
     "resources": ResourcesModule,
     "bundled_extensions": BundledExtensionsModule,
+    "write_bundled_extensions_build_gn": WriteBundledExtensionsBuildGnModule,
     # Build
     "compile": CompileModule,
     "universal_build": UniversalBuildModule,  # macOS universal binary (arm64 + x64)
@@ -134,6 +135,7 @@ EXECUTION_ORDER = [
             "chromium_replace",
             "string_replaces",
             "patches",
+            "write_bundled_extensions_build_gn",
             "configure",
         ],
     ),

@@ -54,11 +54,11 @@ index 0000000000000..69b8e5a79f6fd
 +void UFRDataSource::StartDataRequest(const GURL& url,
 +                                    const content::WebContents::Getter& wc_getter,
 +                                    GotDataCallback callback) {
-+  std::string source = R"(
++  std::string source = R"html(
 +<!DOCTYPE html>
 +<html lang="en">
 +<head>
-+<title>PonyAI — First Run</title>
++<title>PonyAI - First Run</title>
 +<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23fb651f'%3E%3Cpath d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'/%3E%3C/svg%3E" type="image/svg+xml">
 +<meta charset="UTF-8">
 + <meta name="color-scheme" content="light dark">
@@ -238,7 +238,7 @@ index 0000000000000..69b8e5a79f6fd
 +    Step 2: BYOK (Bring Your Own Keys)
 +   </h3>
 +   <p class="muted">You have full control over your AI models!</p>
-+   <p class="muted" style="margin-top:.35rem">Once setup completes (~1–2 min), visit <code>chrome://browseros/settings</code> to configure your API keys.</p>
++   <p class="muted" style="margin-top:.35rem">Once setup completes (~1-2 min), visit <code>chrome://browseros/settings</code> to configure your API keys.</p>
 +   <div class="note">Note: You can even run everything locally using Ollama!</div>
 +  </div>
 + </div>
@@ -264,7 +264,7 @@ index 0000000000000..69b8e5a79f6fd
 +    </span>
 +    Natural-Language Agents
 +   </h3>
-+   <p class="muted">Tell your browser what to do in plain English — it clicks, types, and navigates for you. No coding, no setup.</p>
++   <p class="muted">Tell your browser what to do in plain English - it clicks, types, and navigates for you. No coding, no setup.</p>
 +   <p class="muted">Example: "Copy these LinkedIn contacts to a Google Sheet."</p>
 +  </div>
 +  <div class="card">
@@ -274,7 +274,7 @@ index 0000000000000..69b8e5a79f6fd
 +    </span>
 +    Split-View AI on Any Page
 +   </h3>
-+   <p class="muted">Open ChatGPT, Claude, or Gemini alongside any website. Get help while you work — summarize articles, draft responses, or analyze data without switching tabs.</p>
++   <p class="muted">Open ChatGPT, Claude, or Gemini alongside any website. Get help while you work - summarize articles, draft responses, or analyze data without switching tabs.</p>
 +  </div>
 +  <div class="card">
 +   <h3>
@@ -292,7 +292,7 @@ index 0000000000000..69b8e5a79f6fd
 +    </span>
 +    Your Executive Assistant
 +   </h3>
-+   <p class="muted">Check email, schedule meetings, draft responses — all from the sidebar. Connect Gmail, Calendar, Notion, and more with one-click MCP integration.</p>
++   <p class="muted">Check email, schedule meetings, draft responses - all from the sidebar. Connect Gmail, Calendar, Notion, and more with one-click MCP integration.</p>
 +  </div>
 + </div>
 +</section>
@@ -337,13 +337,13 @@ index 0000000000000..69b8e5a79f6fd
 +   Twitter
 +  </a>
 + </p>
-+ <p class="subtle" style="text-align:center;">Have questions or want to contribute? We’d love to hear from you.</p>
++ <p class="subtle" style="text-align:center;">Have questions or want to contribute? We'd love to hear from you.</p>
 +</section>
 +
 +<!-- No script needed for this static page -->
 +</body>
 +</html>
-+  )";
++  )html";
 +  std::move(callback).Run(base::MakeRefCounted<base::RefCountedString>(std::move(source)));
 +}
 +

@@ -23,6 +23,7 @@ modules:
   - chromium_replace
   - string_replaces
   - patches
+  - write_bundled_extensions_build_gn
 
   # Phase 3: Build
   - configure

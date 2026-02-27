@@ -75,13 +75,10 @@ index 0000000000000..e84ab10537ec4
 +
 +  LOG(INFO) << "browseros: Starting extension installation";
 +
-+  // TODO(nikhil): Re-enable bundled extension loading once OTA update flow is
-+  // fully validated. Remote install is now fast with InstallPendingNow fix.
-+#if 0
++  // Prefer bundled .crx (from build) so PonyAI/offline builds work without CDN.
 +  if (TryLoadFromBundled()) {
 +    return;
 +  }
-+#endif
 +
 +  FetchFromRemote();
 +}
@@ -90,9 +87,10 @@ index 0000000000000..e84ab10537ec4
 +  base::FilePath bundled_path;
 +  if (!base::PathService::Get(chrome::DIR_BROWSEROS_BUNDLED_EXTENSIONS,
 +                              &bundled_path)) {
-+    LOG(INFO) << "browseros: Bundled path not available";
++    LOG(WARNING) << "browseros: Bundled path not available (DIR_BROWSEROS_BUNDLED_EXTENSIONS)";
 +    return false;
 +  }
++  LOG(INFO) << "browseros: TryLoadFromBundled path=" << bundled_path.value();
 +
 +  base::FilePath manifest_path =
 +      bundled_path.Append(FILE_PATH_LITERAL("bundled_extensions.json"));

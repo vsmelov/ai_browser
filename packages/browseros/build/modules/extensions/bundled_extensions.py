@@ -38,6 +38,8 @@ class BundledExtensionsModule(CommandModule):
     def execute(self, ctx: Context) -> None:
         output_dir = self._get_output_dir(ctx)
         output_dir.mkdir(parents=True, exist_ok=True)
+        # So patches can add files under chrome/browser/browseros/*, ensure all subdirs exist
+        self._ensure_browseros_dirs(ctx)
         log_info(f"  Output: {output_dir}")
 
         local_dir = ctx.root_dir / "resources" / "extensions"
@@ -63,6 +65,17 @@ class BundledExtensionsModule(CommandModule):
     def _get_output_dir(self, ctx: Context) -> Path:
         """Get the bundled extensions output directory in Chromium source"""
         return ctx.chromium_src / "chrome" / "browser" / "browseros" / "bundled_extensions"
+
+    def _ensure_browseros_dirs(self, ctx: Context) -> None:
+        """Create chrome/browser/browseros/* dirs from chromium_patches so 'new file' patches can apply."""
+        patches_dir = ctx.root_dir / "chromium_patches"
+        browseros_patches = patches_dir / "chrome" / "browser" / "browseros"
+        if not browseros_patches.is_dir():
+            return
+        base = ctx.chromium_src / "chrome" / "browser" / "browseros"
+        for d in browseros_patches.rglob("*"):
+            if d.is_dir():
+                (base / d.relative_to(browseros_patches)).mkdir(parents=True, exist_ok=True)
 
     def _use_local_extensions(self, local_dir: Path, output_dir: Path) -> bool:
         """If resources/extensions/ has bundled_extensions.json and .crx files, copy them and return True."""
