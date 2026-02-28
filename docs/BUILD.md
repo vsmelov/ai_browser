@@ -159,7 +159,7 @@ uv run browseros build --chromium-src /home/ubuntu/knx-west/aib/chromium/src --b
 ```
 
 Флаги: `--setup` и `--prep` — только для первого раза; дальше достаточно `--build --build-type debug`. Запуск собранного браузера (Linux):  
-`<chromium-src>/out/Default_x64/browseros --enable-logging=stderr --user-data-dir=/tmp/test-profile`
+`<chromium-src>/out/Default_x64/ponyai --enable-logging=stderr --user-data-dir=/tmp/test-profile`
 
 #### Альтернатива: сборка по YAML-конфигу
 

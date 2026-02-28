@@ -146,7 +146,7 @@ ssh -L 5901:localhost:5901 -N user@SERVER_IP
 Запуск собранного браузера (подставь свой путь к out и бинарнику):
 
 ```bash
-/home/ubuntu/knx-west/aib/chromium/src/out/Default_x64/browseros --enable-logging=stderr --user-data-dir=/tmp/browseros-profile
+/home/ubuntu/knx-west/aib/chromium/src/out/Default_x64/ponyai --enable-logging=stderr --user-data-dir=/tmp/browseros-profile
 ```
 
 Или добавить ярлык на рабочий стол / в меню Xfce/GNOME.

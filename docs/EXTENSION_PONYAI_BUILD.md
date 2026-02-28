@@ -28,25 +28,6 @@
 
 ---
 
-## Как проверить, что расширения встроены в собранный браузер
-
-Путь к bundled-расширениям в рантайме — **рядом с бинарником** `chrome`:
-
-- **Linux:** `<chromium_src>/out/Default_x64/browseros_extensions/`
-- **macOS:** внутри `.app`: `…/Resources/browseros_extensions/`
-
-Проверка (Linux, из каталога Chromium):
-
-```bash
-ls -la out/Default_x64/browseros_extensions/
-```
-
-Должны быть: `bundled_extensions.json` и файл(ы) `<extension_id>.crx` (например `hppcdefeenkjjbamdggkaaempenbljkn.crx` для Agent V2). Браузер при старте сначала пытается загрузить расширения из этой папки; если там есть .crx и манифест — CDN не используется.
-
-Если в логах видно «Agent extension not found» или «PonyAI Agent is installing/updating» без результата — раньше загрузка из bundled была отключена в коде; после включения `TryLoadFromBundled()` расширение должно подхватываться из `browseros_extensions/`.
-
----
-
 ## Почему «Assistant» не в списке расширений и откуда старые логотипы
 
 В сборке браузера кнопка **«Assistant»** в тулбаре — это **встроенное действие**: по клику открывается side panel **расширения Agent V2** (ID `bflpfmnmnokmjhmgnolecpppdbdophmk`). То есть контент панели («Agent at your service», логотипы, текст «BrowserOS») — это **UI именно расширения**, а не отдельная встроенная страница.
@@ -65,10 +46,10 @@ ls -la out/Default_x64/browseros_extensions/
 
 Расширение (Agent) общается с **бэкендом** (API): сохраняет и загружает чаты, профиль, настройки провайдеров LLM, расписание задач и т.д. Этот API сделан в формате **GraphQL** — один HTTP-эндпоинт, запросы описываются в виде «что нужно получить/изменить».
 
-- **Schema для codegen** можно взять **тремя способами:** (1) **встроенная** — в [BrowserOS-agent](https://github.com/browseros-ai/BrowserOS-agent) после [PR #364](https://github.com/browseros-ai/BrowserOS-agent/pull/364) в репо есть `apps/agent/schema/schema.graphql`, тогда ничего в `.env` задавать не нужно; (2) **по URL** — в `.env.development` задать `GRAPHQL_SCHEMA_URL=https://api.browseros.com/graphql` (introspection); (3) **из файла** — `GRAPHQL_SCHEMA_PATH=/path/to/schema.graphql`.
-- Наш скрипт подменяет `codegen.ts`: поддерживаются **`GRAPHQL_SCHEMA_URL`**, **`GRAPHQL_SCHEMA_PATH`** и fallback на **`schema/schema.graphql`** (как в PR #364). Репо workers не нужен.
+- **schema** для codegen можно взять **двумя способами:** (1) **по URL** — codegen делает introspection к эндпоинту (например `https://api.browseros.com/graphql`), схема не нужна локально; (2) **из файла** — путь к `schema.graphql` (файл есть в репо BrowserOS-workers, но этот репо **приватный**, доступа у форков нет).
+- Наш скрипт сборки подменяет `codegen.ts` так, что поддерживаются переменные **`GRAPHQL_SCHEMA_URL`** (рекомендуется) и **`GRAPHQL_SCHEMA_PATH`**. Репо workers **не нужен**: достаточно в `.env.development` задать `GRAPHQL_SCHEMA_URL=https://api.browseros.com/graphql` (если API разрешает introspection).
 
-То есть GraphQL тут — это **формат API бэкенда**. Чтобы собрать расширение: при использовании свежего BrowserOS-agent (с PR #364) достаточно клонировать репо и запустить сборку — codegen возьмёт встроенную схему. Либо задать в `apps/agent/.env.development` `GRAPHQL_SCHEMA_URL` или `GRAPHQL_SCHEMA_PATH`. Расширение при работе ходит на `VITE_PUBLIC_BROWSEROS_API` (или ваш API).
+То есть GraphQL тут — это **формат API бэкенда**. Чтобы собрать расширение, задайте в `apps/agent/.env.development` либо `GRAPHQL_SCHEMA_URL` (URL эндпоинта для introspection), либо `GRAPHQL_SCHEMA_PATH` (путь к локальному schema.graphql). Дальше расширение при работе ходит на `VITE_PUBLIC_BROWSEROS_API` (или ваш API).
 
 ### Два разных агента: почему CONTRIBUTING «недостаточно» и откуда GraphQL
 

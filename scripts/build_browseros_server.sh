@@ -72,8 +72,22 @@ main() {
     cp "$AGENT_DIR/apps/server/.env.example" "$AGENT_DIR/apps/server/.env.development"
   fi
 
+  # Patch logger: disable pino-pretty for standalone binary (Bun compile can't resolve it).
+  # createConsoleTransport() returns null in prod; in dev it returns { target: 'pino-pretty' } which
+  # fails at runtime in the compiled binary. Force production logging path for our build.
+  LOGGER_SRC="$AGENT_DIR/apps/server/src/lib/logger.ts"
+  if grep -q "if (isDev)" "$LOGGER_SRC" 2>/dev/null; then
+    echo "Patching logger.ts to skip pino-pretty in standalone build ..."
+    sed -i.bak 's/if (isDev) {/if (false \&\& isDev) { \/\/ disabled for standalone: pino-pretty not available in Bun compile/' "$LOGGER_SRC" || true
+  fi
+
   echo "Building server (--mode=dev --target=$target) ..."
   bun scripts/build/server.ts --mode=dev --target="$target"
+
+  # Restore logger if we patched it
+  if [[ -f "${LOGGER_SRC}.bak" ]]; then
+    mv "${LOGGER_SRC}.bak" "$LOGGER_SRC"
+  fi
 
   local src="$AGENT_DIR/dist/server/$binary_name"
   if [[ ! -f "$src" ]]; then

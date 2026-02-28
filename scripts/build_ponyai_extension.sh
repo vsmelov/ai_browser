@@ -94,10 +94,10 @@ main() {
   apply_rebrand "$agent_app"
   copy_icons "$agent_app"
 
-  # Patch codegen: GRAPHQL_SCHEMA_URL (introspection) + fallback to schema/schema.graphql (BrowserOS-agent PR #364)
+  # Patch codegen to support GRAPHQL_SCHEMA_URL (introspection) so workers repo is not required
   if [[ -f "$REPO_ROOT/scripts/agent-codegen.ts" ]]; then
     cp "$REPO_ROOT/scripts/agent-codegen.ts" "$agent_app/codegen.ts"
-    echo "Patched codegen.ts (GRAPHQL_SCHEMA_URL or bundled schema/schema.graphql)."
+    echo "Patched codegen.ts (supports GRAPHQL_SCHEMA_URL for introspection)."
   fi
 
   cd "$AGENT_DIR"
@@ -136,7 +136,7 @@ main() {
     [[ -f "$agent_app/package.json.bak" ]] && mv "$agent_app/package.json.bak" "$agent_app/package.json"
   else
     echo "Building extension (bun run codegen && wxt build) ..."
-    echo "  (Codegen: GRAPHQL_SCHEMA_URL or GRAPHQL_SCHEMA_PATH in .env.development, or bundled schema/schema.graphql if present — see BrowserOS-agent PR #364.)"
+    echo "  (Codegen uses GRAPHQL_SCHEMA_URL from .env.development if set, e.g. https://api.browseros.com/graphql; else GRAPHQL_SCHEMA_PATH. No workers repo required.)"
     (cd "$agent_app" && bun run codegen && bun run build)
   fi
 

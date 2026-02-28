@@ -140,6 +140,12 @@ index 0000000000000..3c1014ee9db3e
 +#if BUILDFLAG(IS_WIN)
 +  options.start_hidden = true;
 +#endif
++  // Force production logging so server does not try to load pino-pretty (fails in Bun compile).
++#if BUILDFLAG(IS_WIN)
++  options.environment[L"NODE_ENV"] = L"production";
++#else
++  options.environment["NODE_ENV"] = "production";
++#endif
 +
 +  // Launch the process (blocking I/O)
 +  result.process = base::LaunchProcess(cmd, options);

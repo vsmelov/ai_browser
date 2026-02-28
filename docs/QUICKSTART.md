@@ -112,14 +112,14 @@ uv run browseros build \
 Бинарник (Linux x64 debug):
 
 ```bash
-/path/to/chromium/src/out/Default_x64/browseros \
+/path/to/chromium/src/out/Default_x64/ponyai \
   --enable-logging=stderr --user-data-dir=/tmp/browseros-profile
 ```
 
 Пример для типичной раскладки:
 
 ```bash
-~/chromium/src/out/Default_x64/browseros \
+~/chromium/src/out/Default_x64/ponyai \
   --enable-logging=stderr --user-data-dir=/tmp/browseros-profile
 ```
 
@@ -144,7 +144,7 @@ uv run browseros build \
 | 1 | Клонировать ai_browser, установить depot_tools, `fetch chromium`, проверить тег в `chromium/src` |
 | 2 | Запустить `./scripts/build_browseros_server.sh` из корня ai_browser |
 | 3 | В `packages/browseros`: `uv sync`, затем `uv run browseros build --chromium-src <path> --setup --prep --build --build-type debug` |
-| 4 | Запустить `<chromium-src>/out/Default_x64/browseros --enable-logging=stderr --user-data-dir=/tmp/browseros-profile` |
+| 4 | Запустить `<chromium-src>/out/Default_x64/ponyai --enable-logging=stderr --user-data-dir=/tmp/browseros-profile` |
 | 5 | (Опционально) Настроить RDP по [REMOTE_DESKTOP.md](REMOTE_DESKTOP.md) |
 
 Подробности по каждому шагу, R2, заглушкам и конфигам — в [BUILD.md](BUILD.md).

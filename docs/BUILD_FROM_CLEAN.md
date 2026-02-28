@@ -44,7 +44,7 @@ cd /lambda/nfs/knx-west/aib/ai_browser/packages/browseros
 ## 4. Запуск браузера после сборки
 
 ```bash
-/lambda/nfs/knx-west/aib/chromium/src/out/Default_x64/browseros \
+/lambda/nfs/knx-west/aib/chromium/src/out/Default_x64/ponyai \
   --enable-logging=stderr \
   --user-data-dir=/tmp/test-profile
 ```
