@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Build the Agent Chrome extension with PonyAI branding and copy into this repo.
-# Requires: git, bun (https://bun.sh)
+# Requires: bun (https://bun.sh). Clone BrowserOS-agent manually; this script does no git operations.
 #
 # Usage:
 #   ./scripts/build_ponyai_extension.sh
@@ -72,24 +72,13 @@ main() {
 
   if [[ -z "$AGENT_DIR" ]]; then
     AGENT_DIR="$CLONE_DIR"
-    if [[ ! -d "$AGENT_DIR/.git" ]]; then
-      echo "Cloning BrowserOS-agent into $AGENT_DIR ..."
-      mkdir -p "$(dirname "$AGENT_DIR")"
-      git clone --depth 1 https://github.com/browseros-ai/BrowserOS-agent.git "$AGENT_DIR"
-    else
-      echo "Using existing clone at $AGENT_DIR (pull latest)"
-      (cd "$AGENT_DIR" && git pull --depth 1 || true)
-    fi
   fi
-
   local agent_app="$AGENT_DIR/apps/agent"
   if [[ ! -d "$agent_app" ]]; then
-    echo "Error: apps/agent not found in $AGENT_DIR" >&2
+    echo "Error: BrowserOS-agent not found at $AGENT_DIR (no apps/agent)." >&2
+    echo "Clone it manually: git clone https://github.com/browseros-ai/BrowserOS-agent.git $AGENT_DIR" >&2
     exit 1
   fi
-
-  # Revert any previous rebrand so we start from clean (optional: only if you want repeat runs)
-  (cd "$AGENT_DIR" && git checkout -- apps/agent 2>/dev/null || true)
 
   apply_rebrand "$agent_app"
   copy_icons "$agent_app"

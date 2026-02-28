@@ -52,14 +52,11 @@ main() {
 
   if [[ -z "$AGENT_DIR" ]]; then
     AGENT_DIR="$CLONE_DIR"
-    if [[ ! -d "$AGENT_DIR/.git" ]]; then
-      echo "Cloning BrowserOS-agent into $AGENT_DIR ..."
-      mkdir -p "$(dirname "$AGENT_DIR")"
-      git clone --depth 1 https://github.com/browseros-ai/BrowserOS-agent.git "$AGENT_DIR"
-    else
-      echo "Using existing clone at $AGENT_DIR (pull latest)"
-      (cd "$AGENT_DIR" && git pull --depth 1 || true)
-    fi
+  fi
+  if [[ ! -d "$AGENT_DIR/apps/server" ]]; then
+    echo "Error: BrowserOS-agent not found at $AGENT_DIR (no apps/server)." >&2
+    echo "Clone it manually: git clone https://github.com/browseros-ai/BrowserOS-agent.git $AGENT_DIR" >&2
+    exit 1
   fi
 
   cd "$AGENT_DIR"
