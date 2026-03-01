@@ -27,3 +27,5 @@ gclient.json
 .cache/
 packages/browseros/out.log
 packages/browseros/resources/binaries/browseros-server*
+.grove/
+**/resources/binaries/

@@ -12,16 +12,23 @@
     "groups": [
       {
         "group": "Get Started",
-        "pages": ["index", "onboarding", "update", "changelog"]
+        "pages": [
+          "index",
+          "onboarding",
+          "update/index",
+          "changelog"
+        ]
       },
       {
         "group": "Core Features",
         "pages": [
           "features/bring-your-own-llm",
-          "features/cowork",
-          "features/use-with-claude-code",
+          "features/local-models",
           "features/workflows",
           "features/scheduled-tasks",
+          "features/cowork",
+          "features/connect-mcps",
+          "features/use-with-claude-code",
           "features/llm-chat-hub",
           "features/ad-blocking"
         ]
