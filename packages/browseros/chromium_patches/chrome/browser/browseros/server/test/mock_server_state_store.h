@@ -3,7 +3,7 @@ new file mode 100644
 index 0000000000000..eb357f9e7b01a
 --- /dev/null
 +++ b/chrome/browser/browseros/server/test/mock_server_state_store.h
-@@ -0,0 +1,28 @@
+@@ -0,0 +1,27 @@
 +// Copyright 2024 The Chromium Authors
 +// Use of this source code is governed by a BSD-style license that can be
 +// found in the LICENSE file.

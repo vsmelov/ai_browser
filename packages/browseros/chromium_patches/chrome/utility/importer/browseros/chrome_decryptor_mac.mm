@@ -3,7 +3,7 @@ new file mode 100644
 index 0000000000000..caabfa17010ab
 --- /dev/null
 +++ b/chrome/utility/importer/browseros/chrome_decryptor_mac.mm
-@@ -0,0 +1,191 @@
+@@ -0,0 +1,190 @@
 +// Copyright 2024 AKW Technology Inc
 +// Chrome decryption - macOS implementation
 +// Uses Keychain for key retrieval, PBKDF2 for key derivation, AES-128-CBC for decryption

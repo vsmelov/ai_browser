@@ -3,7 +3,7 @@ new file mode 100644
 index 0000000000000..a915a04e3aa03
 --- /dev/null
 +++ b/chrome/browser/ui/webui/help/sparkle_version_updater_mac.h
-@@ -0,0 +1,39 @@
+@@ -0,0 +1,38 @@
 +// Copyright 2024 BrowserOS Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
 +// found in the LICENSE file.

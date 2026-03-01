@@ -3,7 +3,7 @@ new file mode 100644
 index 0000000000000..e7e228e6fd71e
 --- /dev/null
 +++ b/chrome/browser/browseros/extensions/browseros_extension_maintainer.h
-@@ -0,0 +1,83 @@
+@@ -0,0 +1,82 @@
 +// Copyright 2024 The Chromium Authors
 +// Use of this source code is governed by a BSD-style license that can be
 +// found in the LICENSE file.

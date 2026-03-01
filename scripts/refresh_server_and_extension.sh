@@ -8,6 +8,7 @@
 #   CHROMIUM_SRC=/path/to/chromium/src ./scripts/refresh_server_and_extension.sh
 #   SKIP_PACK=1 ./scripts/refresh_server_and_extension.sh   # skip .crx pack if you already have it
 #
+# Prep resets all patch targets in Chromium to HEAD then applies patches (avoids double-apply).
 # After this script: run ninja in Chromium (see end of script). Ninja will only re-run copy
 # targets for extensions and server resources — no C++ recompile.
 

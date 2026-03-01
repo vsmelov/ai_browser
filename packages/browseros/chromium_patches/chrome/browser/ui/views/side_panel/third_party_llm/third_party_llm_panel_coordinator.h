@@ -3,7 +3,7 @@ new file mode 100644
 index 0000000000000..ef7c13f156ea7
 --- /dev/null
 +++ b/chrome/browser/ui/views/side_panel/third_party_llm/third_party_llm_panel_coordinator.h
-@@ -0,0 +1,237 @@
+@@ -0,0 +1,236 @@
 +// Copyright 2026 The Chromium Authors
 +// Use of this source code is governed by a BSD-style license that can be
 +// found in the LICENSE file.

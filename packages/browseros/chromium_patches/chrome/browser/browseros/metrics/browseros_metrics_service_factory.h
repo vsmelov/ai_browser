@@ -3,7 +3,7 @@ new file mode 100644
 index 0000000000000..2caddc7598a43
 --- /dev/null
 +++ b/chrome/browser/browseros/metrics/browseros_metrics_service_factory.h
-@@ -0,0 +1,48 @@
+@@ -0,0 +1,47 @@
 +// Copyright 2025 The Chromium Authors
 +// Use of this source code is governed by a BSD-style license that can be
 +// found in the LICENSE file.

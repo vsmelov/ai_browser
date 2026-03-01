@@ -3,7 +3,7 @@ new file mode 100644
 index 0000000000000..cf7ccdf4336f7
 --- /dev/null
 +++ b/chrome/utility/importer/browseros/chrome_decryptor.cc
-@@ -0,0 +1,31 @@
+@@ -0,0 +1,30 @@
 +// Copyright 2024 AKW Technology Inc
 +// Chrome decryption - Linux stub (deferred implementation)
 +

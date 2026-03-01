@@ -3,7 +3,7 @@ new file mode 100644
 index 0000000000000..4166f1a38737c
 --- /dev/null
 +++ b/chrome/browser/extensions/api/browser_os/browser_os_content_processor.cc
-@@ -0,0 +1,247 @@
+@@ -0,0 +1,246 @@
 +// Copyright 2024 The Chromium Authors
 +// Use of this source code is governed by a BSD-style license that can be
 +// found in the LICENSE file.

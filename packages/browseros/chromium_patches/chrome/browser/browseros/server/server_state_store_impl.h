@@ -3,7 +3,7 @@ new file mode 100644
 index 0000000000000..33b8015e18b03
 --- /dev/null
 +++ b/chrome/browser/browseros/server/server_state_store_impl.h
-@@ -0,0 +1,30 @@
+@@ -0,0 +1,29 @@
 +// Copyright 2024 The Chromium Authors
 +// Use of this source code is governed by a BSD-style license that can be
 +// found in the LICENSE file.

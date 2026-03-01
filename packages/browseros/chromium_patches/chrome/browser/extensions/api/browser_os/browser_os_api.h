@@ -3,7 +3,7 @@ new file mode 100644
 index 0000000000000..2e2f5f0253f86
 --- /dev/null
 +++ b/chrome/browser/extensions/api/browser_os/browser_os_api.h
-@@ -0,0 +1,369 @@
+@@ -0,0 +1,368 @@
 +// Copyright 2024 The Chromium Authors
 +// Use of this source code is governed by a BSD-style license that can be
 +// found in the LICENSE file.

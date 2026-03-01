@@ -3,7 +3,7 @@ new file mode 100644
 index 0000000000000..41dce65dacf4f
 --- /dev/null
 +++ b/chrome/utility/importer/browseros/chrome_importer.cc
-@@ -0,0 +1,202 @@
+@@ -0,0 +1,201 @@
 +// Copyright 2023 The Chromium Authors
 +// Use of this source code is governed by a BSD-style license that can be
 +// found in the LICENSE file.

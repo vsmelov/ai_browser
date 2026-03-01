@@ -3,7 +3,7 @@ new file mode 100644
 index 0000000000000..d7dc82b132dad
 --- /dev/null
 +++ b/chrome/browser/browseros/server/validate_resources.py
-@@ -0,0 +1,43 @@
+@@ -0,0 +1,42 @@
 +#!/usr/bin/env python3
 +# Copyright 2024 The Chromium Authors
 +# Use of this source code is governed by a BSD-style license that can be

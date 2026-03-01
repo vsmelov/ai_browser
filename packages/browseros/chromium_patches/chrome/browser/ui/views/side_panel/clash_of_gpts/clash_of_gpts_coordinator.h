@@ -3,7 +3,7 @@ new file mode 100644
 index 0000000000000..80c7895b1e08b
 --- /dev/null
 +++ b/chrome/browser/ui/views/side_panel/clash_of_gpts/clash_of_gpts_coordinator.h
-@@ -0,0 +1,214 @@
+@@ -0,0 +1,213 @@
 +// Copyright 2025 The Chromium Authors
 +// Use of this source code is governed by a BSD-style license that can be
 +// found in the LICENSE file.

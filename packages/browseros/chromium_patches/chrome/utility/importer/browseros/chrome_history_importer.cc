@@ -3,7 +3,7 @@ new file mode 100644
 index 0000000000000..ec7b96bb6b854
 --- /dev/null
 +++ b/chrome/utility/importer/browseros/chrome_history_importer.cc
-@@ -0,0 +1,92 @@
+@@ -0,0 +1,91 @@
 +// Copyright 2024 AKW Technology Inc
 +// Chrome history importer implementation
 +

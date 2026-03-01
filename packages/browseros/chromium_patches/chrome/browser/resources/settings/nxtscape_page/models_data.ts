@@ -3,7 +3,7 @@ new file mode 100644
 index 0000000000000..36638c1910a09
 --- /dev/null
 +++ b/chrome/browser/resources/settings/nxtscape_page/models_data.ts
-@@ -0,0 +1,279 @@
+@@ -0,0 +1,278 @@
 +// Model data interface
 +export interface ModelInfo {
 +  model_id: string;

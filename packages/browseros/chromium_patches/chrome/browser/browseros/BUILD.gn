@@ -25,3 +25,4 @@ index 0000000000000..a7e89ea2d1c47
 +group("browseros_bundled_extensions") {
 +  deps = [ "//chrome/browser/browseros/bundled_extensions" ]
 +}
++

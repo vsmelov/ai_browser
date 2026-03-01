@@ -3,7 +3,7 @@ new file mode 100644
 index 0000000000000..97fdf04282691
 --- /dev/null
 +++ b/chrome/browser/browseros/server/test/mock_process_controller.h
-@@ -0,0 +1,38 @@
+@@ -0,0 +1,37 @@
 +// Copyright 2024 The Chromium Authors
 +// Use of this source code is governed by a BSD-style license that can be
 +// found in the LICENSE file.

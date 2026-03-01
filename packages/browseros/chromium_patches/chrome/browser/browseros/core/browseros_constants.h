@@ -3,7 +3,7 @@ new file mode 100644
 index 0000000000000..476d761245673
 --- /dev/null
 +++ b/chrome/browser/browseros/core/browseros_constants.h
-@@ -0,0 +1,222 @@
+@@ -0,0 +1,221 @@
 +// Copyright 2024 The Chromium Authors
 +// Use of this source code is governed by a BSD-style license that can be
 +// found in the LICENSE file.

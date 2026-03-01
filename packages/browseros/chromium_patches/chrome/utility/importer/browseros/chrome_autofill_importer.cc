@@ -3,7 +3,7 @@ new file mode 100644
 index 0000000000000..3d1e95eaf3461
 --- /dev/null
 +++ b/chrome/utility/importer/browseros/chrome_autofill_importer.cc
-@@ -0,0 +1,79 @@
+@@ -0,0 +1,78 @@
 +// Copyright 2024 AKW Technology Inc
 +// Chrome autofill importer implementation
 +

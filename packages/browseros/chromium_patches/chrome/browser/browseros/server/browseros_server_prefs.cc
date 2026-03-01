@@ -3,7 +3,7 @@ new file mode 100644
 index 0000000000000..631c25fe80c97
 --- /dev/null
 +++ b/chrome/browser/browseros/server/browseros_server_prefs.cc
-@@ -0,0 +1,52 @@
+@@ -0,0 +1,51 @@
 +// Copyright 2024 The Chromium Authors
 +// Use of this source code is governed by a BSD-style license that can be
 +// found in the LICENSE file.

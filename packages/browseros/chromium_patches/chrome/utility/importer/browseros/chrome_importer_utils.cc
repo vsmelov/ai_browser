@@ -3,7 +3,7 @@ new file mode 100644
 index 0000000000000..8b0401a695e20
 --- /dev/null
 +++ b/chrome/utility/importer/browseros/chrome_importer_utils.cc
-@@ -0,0 +1,37 @@
+@@ -0,0 +1,36 @@
 +// Copyright 2024 AKW Technology Inc
 +// Chrome importer shared utilities
 +

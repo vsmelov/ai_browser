@@ -3,7 +3,7 @@ new file mode 100644
 index 0000000000000..7a44fab1879ef
 --- /dev/null
 +++ b/chrome/browser/ui/views/side_panel/clash_of_gpts/clash_of_gpts_window.cc
-@@ -0,0 +1,83 @@
+@@ -0,0 +1,82 @@
 +// Copyright 2025 The Chromium Authors
 +// Use of this source code is governed by a BSD-style license that can be
 +// found in the LICENSE file.

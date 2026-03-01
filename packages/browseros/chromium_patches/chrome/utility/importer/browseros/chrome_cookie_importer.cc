@@ -3,7 +3,7 @@ new file mode 100644
 index 0000000000000..4497532338b3f
 --- /dev/null
 +++ b/chrome/utility/importer/browseros/chrome_cookie_importer.cc
-@@ -0,0 +1,229 @@
+@@ -0,0 +1,228 @@
 +// Copyright 2024 AKW Technology Inc
 +// Chrome cookie importer implementation
 +

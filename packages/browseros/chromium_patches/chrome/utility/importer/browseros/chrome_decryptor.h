@@ -3,7 +3,7 @@ new file mode 100644
 index 0000000000000..3805c007ec30c
 --- /dev/null
 +++ b/chrome/utility/importer/browseros/chrome_decryptor.h
-@@ -0,0 +1,45 @@
+@@ -0,0 +1,44 @@
 +// Copyright 2024 AKW Technology Inc
 +// Chrome data decryption interface
 +

@@ -3,7 +3,7 @@ new file mode 100644
 index 0000000000000..46f7d9359dcd7
 --- /dev/null
 +++ b/chrome/browser/browseros/server/process_controller_impl.h
-@@ -0,0 +1,35 @@
+@@ -0,0 +1,34 @@
 +// Copyright 2024 The Chromium Authors
 +// Use of this source code is governed by a BSD-style license that can be
 +// found in the LICENSE file.

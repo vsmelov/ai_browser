@@ -3,7 +3,7 @@ new file mode 100644
 index 0000000000000..cbae752f359b5
 --- /dev/null
 +++ b/chrome/utility/importer/browseros/chrome_password_importer.cc
-@@ -0,0 +1,151 @@
+@@ -0,0 +1,150 @@
 +// Copyright 2024 AKW Technology Inc
 +// Chrome password importer implementation
 +

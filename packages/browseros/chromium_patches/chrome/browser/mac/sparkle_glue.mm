@@ -3,7 +3,7 @@ new file mode 100644
 index 0000000000000..25a2dd2d5a578
 --- /dev/null
 +++ b/chrome/browser/mac/sparkle_glue.mm
-@@ -0,0 +1,662 @@
+@@ -0,0 +1,661 @@
 +// Copyright 2024 BrowserOS Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
 +// found in the LICENSE file.

@@ -3,7 +3,7 @@ new file mode 100644
 index 0000000000000..40dfcc2ce8af8
 --- /dev/null
 +++ b/chrome/utility/importer/browseros/chrome_bookmarks_importer.h
-@@ -0,0 +1,33 @@
+@@ -0,0 +1,32 @@
 +// Copyright 2024 AKW Technology Inc
 +// Chrome bookmarks importer
 +

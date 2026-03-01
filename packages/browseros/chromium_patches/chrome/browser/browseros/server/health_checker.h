@@ -3,7 +3,7 @@ new file mode 100644
 index 0000000000000..1cefa3ec91f42
 --- /dev/null
 +++ b/chrome/browser/browseros/server/health_checker.h
-@@ -0,0 +1,33 @@
+@@ -0,0 +1,32 @@
 +// Copyright 2024 The Chromium Authors
 +// Use of this source code is governed by a BSD-style license that can be
 +// found in the LICENSE file.

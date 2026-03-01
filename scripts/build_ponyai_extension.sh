@@ -66,55 +66,75 @@ copy_icons() {
   done
 }
 
+# Disable source maps in wxt.config.ts for faster build (avoids hang on heavy sourcemap phase)
+patch_sourcemap_off() {
+  local wxt_cfg="$1"
+  if grep -q "sourcemap: 'hidden'" "$wxt_cfg" 2>/dev/null; then
+    sed -i.bak "s/sourcemap: 'hidden'/sourcemap: false/" "$wxt_cfg"
+    echo "  (source maps disabled in wxt.config.ts for faster build)"
+  fi
+}
+
 main() {
   echo "=== Build PonyAI extension (Agent) ==="
   echo "Destination: $EXT_DEST"
+  echo ""
 
   if [[ -z "$AGENT_DIR" ]]; then
     AGENT_DIR="$CLONE_DIR"
   fi
   local agent_app="$AGENT_DIR/apps/agent"
+  echo "--- Step 1/8: Check BrowserOS-agent ---"
   if [[ ! -d "$agent_app" ]]; then
     echo "Error: BrowserOS-agent not found at $AGENT_DIR (no apps/agent)." >&2
     echo "Clone it manually: git clone https://github.com/browseros-ai/BrowserOS-agent.git $AGENT_DIR" >&2
     exit 1
   fi
+  echo "  Using: $AGENT_DIR"
+  echo ""
 
+  echo "--- Step 2/8: Apply PonyAI rebrand ---"
   apply_rebrand "$agent_app"
-  copy_icons "$agent_app"
+  echo ""
 
-  # Patch codegen to support GRAPHQL_SCHEMA_URL (introspection) so workers repo is not required
+  echo "--- Step 3/8: Copy PonyAI icons ---"
+  copy_icons "$agent_app"
+  echo ""
+
+  echo "--- Step 4/8: Patch codegen (optional) ---"
   if [[ -f "$REPO_ROOT/scripts/agent-codegen.ts" ]]; then
     cp "$REPO_ROOT/scripts/agent-codegen.ts" "$agent_app/codegen.ts"
-    echo "Patched codegen.ts (supports GRAPHQL_SCHEMA_URL for introspection)."
+    echo "  Patched codegen.ts (supports GRAPHQL_SCHEMA_URL for introspection)."
+  else
+    echo "  (skipped: scripts/agent-codegen.ts not found)"
   fi
+  echo ""
 
   cd "$AGENT_DIR"
-  echo "Installing deps (bun install) ..."
+  echo "--- Step 5/8: Install deps (bun install) ---"
   bun install
+  echo ""
 
   # .env for agent if needed (codegen may use it)
   if [[ -f "$agent_app/.env.example" ]] && [[ ! -f "$agent_app/.env.development" ]]; then
     cp "$agent_app/.env.example" "$agent_app/.env.development"
+    echo "  Created .env.development from .env.example"
   fi
 
   if [[ -n "${BUILD_AGENT_WITHOUT_CLOUD:-}" ]]; then
-    echo "Building extension WITHOUT cloud API (stub generated/graphql, skip codegen) ..."
+    echo "--- Step 6/8: Prepare build WITHOUT cloud (stub graphql, no codegen) ---"
     mkdir -p "$agent_app/generated/graphql"
     cp -r "$REPO_ROOT/scripts/agent-generated-stub/generated/graphql/"* "$agent_app/generated/graphql"
-    # Avoid zod import failing in vite-node during build (use fallback env.ts)
     if [[ -f "$REPO_ROOT/scripts/agent-env-build-fallback.ts" ]]; then
       cp "$REPO_ROOT/scripts/agent-env-build-fallback.ts" "$agent_app/lib/env.ts"
-      echo "Patched lib/env.ts (build fallback, no zod)."
+      echo "  Patched lib/env.ts (build fallback, no zod)."
     fi
-    # Temporarily make "build" skip codegen so "bun run build" only runs wxt (same env as normal build)
     sed -i.bak 's/^    "build": "bun run codegen && wxt build",$/    "build": "wxt build",/' "$agent_app/package.json"
-    # Disable source maps to reduce build time/memory (often where it hangs)
-    sed -i.bak "s/sourcemap: 'hidden'/sourcemap: false/" "$agent_app/wxt.config.ts"
-    trap '[[ -f "$agent_app/wxt.config.ts.bak" ]] && mv "$agent_app/wxt.config.ts.bak" "$agent_app/wxt.config.ts"' EXIT
-    # BUILD_EXTENSION_VERBOSE=1 → more Vite/Rollup output (DEBUG=vite:*)
+    patch_sourcemap_off "$agent_app/wxt.config.ts"
+    trap '[[ -f "$agent_app/wxt.config.ts.bak" ]] && mv "$agent_app/wxt.config.ts.bak" "$agent_app/wxt.config.ts"; [[ -f "$agent_app/package.json.bak" ]] && mv "$agent_app/package.json.bak" "$agent_app/package.json"' EXIT
+    echo ""
+    echo "--- Step 7/8: Run wxt build (no source maps) ---"
     [[ -n "${BUILD_EXTENSION_VERBOSE:-}" ]] && export DEBUG="${DEBUG:-vite:*}"
-    # Line-buffer so progress appears in log when piping to tee (Node buffers when not TTY)
     if [[ -n "${BUILD_EXTENSION_UNBUFFERED:-}" ]] && command -v stdbuf >/dev/null 2>&1; then
       (cd "$agent_app" && stdbuf -oL -eL bun --env-file=.env.development run build)
     else
@@ -124,11 +144,19 @@ main() {
     [[ -f "$agent_app/wxt.config.ts.bak" ]] && mv "$agent_app/wxt.config.ts.bak" "$agent_app/wxt.config.ts"
     [[ -f "$agent_app/package.json.bak" ]] && mv "$agent_app/package.json.bak" "$agent_app/package.json"
   else
-    echo "Building extension (bun run codegen && wxt build) ..."
-    echo "  (Codegen uses GRAPHQL_SCHEMA_URL from .env.development if set, e.g. https://api.browseros.com/graphql; else GRAPHQL_SCHEMA_PATH. No workers repo required.)"
+    echo "--- Step 6/8: Disable source maps (faster build) ---"
+    patch_sourcemap_off "$agent_app/wxt.config.ts"
+    trap '[[ -f "$agent_app/wxt.config.ts.bak" ]] && mv "$agent_app/wxt.config.ts.bak" "$agent_app/wxt.config.ts"' EXIT
+    echo ""
+    echo "--- Step 7/8: Run codegen + wxt build ---"
+    echo "  (Codegen uses GRAPHQL_SCHEMA_URL from .env.development if set.)"
     (cd "$agent_app" && bun run codegen && bun run build)
+    trap - EXIT
+    [[ -f "$agent_app/wxt.config.ts.bak" ]] && mv "$agent_app/wxt.config.ts.bak" "$agent_app/wxt.config.ts"
   fi
 
+  echo ""
+  echo "--- Step 8/8: Locate output and copy to agent-build ---"
   # wxt 0.20+ puts chrome-mv3 in dist/chrome-mv3; older used .output/chrome-mv3
   local out_dir="$agent_app/dist/chrome-mv3"
   if [[ ! -d "$out_dir" ]]; then
@@ -148,11 +176,13 @@ main() {
     echo "Build failed: dist or .output not found in $agent_app" >&2
     exit 1
   fi
-
+  echo "  Output dir: $out_dir"
   mkdir -p "$EXT_DEST"
   rm -rf "$EXT_DEST/agent-build"
   cp -r "$out_dir" "$EXT_DEST/agent-build"
-  echo "Done. Unpacked extension copied to $EXT_DEST/agent-build/"
+  echo "  Copied to: $EXT_DEST/agent-build/"
+  echo ""
+  echo "Done. Unpacked extension: $EXT_DEST/agent-build/"
   echo ""
   echo "Next steps:"
   echo "  1) Load unpacked: Chrome -> Extensions -> Load unpacked -> select $EXT_DEST/agent-build"
