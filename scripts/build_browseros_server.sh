@@ -2,8 +2,8 @@
 # Build browseros_server from BrowserOS-agent and copy into this repo.
 # Requires: git, bun (https://bun.sh)
 # Usage:
-#   ./scripts/build_browseros_server.sh              # current platform
-#   BROWSEROS_AGENT_DIR=/path/to/BrowserOS-agent ./scripts/build_browseros_server.sh  # use existing clone
+#   ./scripts/build_browseros_server.sh              # current platform (requires: git submodule update --init packages/browseros-agent)
+#   BROWSEROS_AGENT_DIR=/path/to/BrowserOS-agent ./scripts/build_browseros_server.sh  # use given clone
 #   TARGET=linux-arm64 ./scripts/build_browseros_server.sh   # override target
 
 set -e
@@ -11,7 +11,7 @@ set -e
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 DEST_DIR="$REPO_ROOT/packages/browseros/resources/binaries/browseros_server"
 AGENT_DIR="${BROWSEROS_AGENT_DIR:-}"
-CLONE_DIR="$REPO_ROOT/.cache/BrowserOS-agent"
+SUBMODULE_AGENT="$REPO_ROOT/packages/browseros-agent"
 
 detect_target() {
   local os arch
@@ -51,15 +51,13 @@ main() {
   echo "Destination: $DEST_DIR"
 
   if [[ -z "$AGENT_DIR" ]]; then
-    AGENT_DIR="$CLONE_DIR"
-    if [[ ! -d "$AGENT_DIR/.git" ]]; then
-      echo "Cloning BrowserOS-agent into $AGENT_DIR ..."
-      mkdir -p "$(dirname "$AGENT_DIR")"
-      git clone --depth 1 https://github.com/browseros-ai/BrowserOS-agent.git "$AGENT_DIR"
-    else
-      echo "Using existing clone at $AGENT_DIR (pull latest)"
-      (cd "$AGENT_DIR" && git pull --depth 1 || true)
+    if [[ ! -e "$SUBMODULE_AGENT/.git" ]]; then
+      echo "Error: git submodule packages/browseros-agent is not initialized." >&2
+      echo "Run: git submodule update --init packages/browseros-agent" >&2
+      exit 1
     fi
+    AGENT_DIR="$SUBMODULE_AGENT"
+    echo "Using git submodule at $AGENT_DIR"
   fi
 
   cd "$AGENT_DIR"

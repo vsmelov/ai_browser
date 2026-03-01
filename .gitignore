@@ -29,3 +29,8 @@ packages/browseros/out.log
 packages/browseros/resources/binaries/browseros-server*
 .grove/
 **/resources/binaries/
+packages/browseros/resources/binaries/browseros_server/
+
+# Root-level build logs (so IDE git tab stays clean)
+browser-build.log
+extension-build.log
