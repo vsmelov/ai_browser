@@ -35,11 +35,18 @@ class BundledExtensionsModule(CommandModule):
             )
 
     def execute(self, ctx: Context) -> None:
+        output_dir = self._get_output_dir(ctx)
+        local_ext_dir = ctx.root_dir / "resources" / "extensions"
+
+        # If local bundled_extensions.json and .crx files exist, use them instead of CDN
+        local_json = local_ext_dir / "bundled_extensions.json"
+        if local_json.exists():
+            if self._use_local_extensions(local_ext_dir, output_dir, local_json):
+                return
+
         log_info("\n📦 Bundling extensions from CDN manifest...")
 
         manifest_url = ctx.get_extensions_manifest_url()
-        output_dir = self._get_output_dir(ctx)
-
         output_dir.mkdir(parents=True, exist_ok=True)
         log_info(f"  Output: {output_dir}")
 
@@ -53,8 +60,83 @@ class BundledExtensionsModule(CommandModule):
             self._download_extension(ext, output_dir)
 
         self._generate_json(extensions, output_dir)
+        self._write_sources_gni(
+            output_dir,
+            ["bundled_extensions.json"] + [f"{ext.id}.crx" for ext in extensions],
+        )
 
         log_success(f"Bundled {len(extensions)} extensions successfully")
+
+    def _use_local_extensions(
+        self, local_ext_dir: Path, output_dir: Path, local_json: Path
+    ) -> bool:
+        """Use local bundled_extensions.json and .crx from resources/extensions. Returns True if used."""
+        import shutil
+
+        try:
+            with open(local_json) as f:
+                data = json.load(f)
+        except (json.JSONDecodeError, OSError) as e:
+            log_error(f"  Failed to read local {local_json.name}: {e}")
+            return False
+
+        if not data or not isinstance(data, dict):
+            log_error("  Local bundled_extensions.json is empty or invalid")
+            return False
+
+        missing = []
+        for ext_id, entry in data.items():
+            if not isinstance(entry, dict):
+                continue
+            crx_name = entry.get("external_crx")
+            if not crx_name:
+                continue
+            crx_path = local_ext_dir / crx_name
+            if not crx_path.exists():
+                missing.append(crx_name)
+
+        if missing:
+            log_error(f"  Local extensions missing .crx: {missing}")
+            return False
+
+        log_info("\n📦 Using local extensions from resources/extensions/...")
+        output_dir.mkdir(parents=True, exist_ok=True)
+        log_info(f"  Output: {output_dir}")
+
+        # In tree we always use filenames by extension ID ({id}.crx), same as CDN path
+        normalized: Dict[str, Dict[str, str]] = {}
+        source_files: List[str] = ["bundled_extensions.json"]
+        for ext_id, entry in data.items():
+            if not isinstance(entry, dict):
+                continue
+            crx_name = entry.get("external_crx")
+            if not crx_name:
+                continue
+            dest_name = f"{ext_id}.crx"
+            shutil.copy2(local_ext_dir / crx_name, output_dir / dest_name)
+            normalized[ext_id] = {
+                "external_crx": dest_name,
+                "external_version": entry.get("external_version", ""),
+            }
+            source_files.append(dest_name)
+            log_info(f"  Copied {crx_name} -> {dest_name}")
+
+        (output_dir / "bundled_extensions.json").write_text(
+            json.dumps(normalized, indent=2) + "\n", encoding="utf-8"
+        )
+        self._write_sources_gni(output_dir, source_files)
+        log_success("Bundled local extensions successfully")
+        return True
+
+    def _write_sources_gni(self, output_dir: Path, source_files: List[str]) -> None:
+        """Write sources.gni so BUILD.gn copies exactly the files we produced."""
+        lines = ["bundled_extensions_sources = ["]
+        for i, name in enumerate(source_files):
+            lines.append(f'  "{name}"' + ("," if i < len(source_files) - 1 else ""))
+        lines.append("]")
+        gni_path = output_dir / "sources.gni"
+        gni_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+        log_info(f"  Wrote {gni_path.name}")
 
     def _get_output_dir(self, ctx: Context) -> Path:
         """Get the bundled extensions output directory in Chromium source"""

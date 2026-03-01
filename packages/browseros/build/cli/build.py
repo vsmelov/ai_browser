@@ -130,10 +130,10 @@ EXECUTION_ORDER = [
         [
             "download_resources",
             "resources",
-            "bundled_extensions",
             "chromium_replace",
             "string_replaces",
             "patches",
+            "bundled_extensions",  # after patches so sources.gni exists when gn runs
             "configure",
         ],
     ),

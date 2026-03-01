@@ -3,6 +3,7 @@ new file mode 100644
 index 0000000000000..80c3b395c7af4
 --- /dev/null
 +++ b/chrome/browser/browseros/bundled_extensions/.gitignore
-@@ -0,0 +1,2 @@
+@@ -0,0 +1,3 @@
 +*.crx
 +*.json
++sources.gni
