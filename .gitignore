@@ -34,3 +34,7 @@ packages/browseros/resources/binaries/browseros_server/
 # Root-level build logs (so IDE git tab stays clean)
 browser-build.log
 extension-build.log
+packages/browseros/build.log
+
+# Extension signing keys (do not commit)
+packages/browseros/resources/extensions/*.pem

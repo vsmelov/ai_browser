@@ -157,6 +157,34 @@ cd packages/browseros && uv sync && uv run browseros build --chromium-src /home/
 
 ---
 
+## До-сборка: обновить сервер и расширение без полной перекомпиляции
+
+Когда браузер уже собран и нужно только подставить **новый бинарник сервера** и/или **новый .crx расширения** (без пересборки всего Chrome):
+
+Все команды 1–4 — из **корня репо** `ai_browser`, 5 — из `packages/browseros`. Подставь свой путь к Chromium вместо `/home/ubuntu/knx-west/aib/chromium/src`.
+
+```bash
+# 1. Сервер (с фиксом pino-pretty и проверкой logger)
+./scripts/build_browseros_server.sh
+
+# 2. Расширение (unpacked)
+./scripts/build_ponyai_extension.sh
+
+# 3. Упаковать в .crx
+./scripts/pack_agent_crx.sh
+
+# 4. Если упаковывали без ключа (получили agent-pack.crx) — один раз обновить ID в json
+python3 scripts/get_crx_extension_id.py packages/browseros/resources/extensions/agent-pack.crx --write-json
+
+# 5. Подставить ресурсы в дерево Chromium и пересобрать только то, что нужно (COPY + link, не полная перекомпиляция)
+cd packages/browseros
+uv run browseros build --chromium-src /home/ubuntu/knx-west/aib/chromium/src -m resources,bundled_extensions,compile --build-type debug
+```
+
+Шаг 5 копирует бинарник из `resources/binaries/browseros_server/` и расширения из `resources/extensions/` в дерево Chromium и запускает `autoninja`; ninja перезапустит только правила COPY и при необходимости финальную линковку, без полной перекомпиляции.
+
+---
+
 ## См. также
 
 - [QUICKSTART.md](../QUICKSTART.md) — репо, Chromium, первая сборка браузера.

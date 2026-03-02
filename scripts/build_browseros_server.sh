@@ -60,6 +60,19 @@ main() {
     echo "Using git submodule at $AGENT_DIR"
   fi
 
+  # Ensure we're building from code that won't crash in Bun bundle (no pino-pretty in bundle)
+  LOGGER_TS="$AGENT_DIR/apps/server/src/lib/logger.ts"
+  if [[ ! -f "$LOGGER_TS" ]]; then
+    echo "Error: logger.ts not found at $LOGGER_TS" >&2
+    exit 1
+  fi
+  if ! grep -A 5 'function createConsoleTransport' "$LOGGER_TS" | grep -q 'return null'; then
+    echo "Error: logger createConsoleTransport() must return null (no pino-pretty in bundle)." >&2
+    echo "See apps/server/src/lib/logger.ts" >&2
+    exit 1
+  fi
+  echo "Verified: logger safe for Bun compile (our code)"
+
   cd "$AGENT_DIR"
   echo "Installing deps (bun install) ..."
   bun install
@@ -82,7 +95,7 @@ main() {
   mkdir -p "$DEST_DIR"
   cp "$src" "$DEST_DIR/"
   chmod +x "$DEST_DIR/$binary_name"
-  echo "Done. Binary copied to $DEST_DIR/$binary_name"
+  echo "Done. Binary copied to $DEST_DIR/$binary_name (our build from $AGENT_DIR)"
 }
 
 main "$@"

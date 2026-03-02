@@ -149,9 +149,23 @@ def copy_resources_impl(ctx: Context, commit_each: bool = False) -> bool:
             elif op_type == "file":
                 # Copy single file
                 if src_path.exists() and src_path.is_file():
+                    # When copying our server binary, verify it's a real binary (not stub)
+                    is_server_bin = "browseros/server/resources/bin" in destination and "browseros_server" in source
+                    if is_server_bin and get_platform() != "windows":
+                        size = src_path.stat().st_size
+                        with open(src_path, "rb") as f:
+                            magic = f.read(4)
+                        if size < 500_000 or magic != b"\x7fELF":
+                            log_warning(
+                                f"    Server binary looks like stub or too small ({size} bytes). "
+                                "Run scripts/build_browseros_server.sh first to use our build."
+                            )
+                        else:
+                            log_info(f"    ✓ Using our server binary: {source} ({size:,} bytes)")
                     dst_base.parent.mkdir(parents=True, exist_ok=True)
                     shutil.copy2(src_path, dst_base)
-                    log_info(f"    ✓ Copied file: {source} → {destination}")
+                    if not is_server_bin:
+                        log_info(f"    ✓ Copied file: {source} → {destination}")
                     if commit_each:
                         commit_resource_copy(
                             name, source, destination, ctx.chromium_src
