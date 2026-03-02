@@ -183,6 +183,27 @@ uv run browseros build --chromium-src /home/ubuntu/knx-west/aib/chromium/src -m 
 
 Шаг 5 копирует бинарник из `resources/binaries/browseros_server/` и расширения из `resources/extensions/` в дерево Chromium и запускает `autoninja`; ninja перезапустит только правила COPY и при необходимости финальную линковку, без полной перекомпиляции.
 
+### Если bundled-сервер в out/ не обновился (находка)
+
+Модуль **resources** кладёт бинарник в дерево Chromium (`chrome/browser/browseros/server/resources/bin/browseros_server`), но Ninja не всегда перезапускает копирование в `out/Default_x64/BrowserOSServer/...` (правило `copy("browseros_resources_copy")` с `sources = [ "resources" ]` может не увидеть изменение одного файла). В итоге в `out/` может остаться старый сервер: при запуске браузера он падает с `pino-pretty` или updater качает сервер с CDN.
+
+**Проверка:** сравни даты файлов — в дереве должен быть свежий бинарник, в `out/` — тот же или новее:
+```bash
+stat -c '%y' $CHROMIUM_SRC/chrome/browser/browseros/server/resources/bin/browseros_server
+stat -c '%y' $CHROMIUM_SRC/out/Default_x64/BrowserOSServer/default/resources/bin/browseros_server
+```
+
+**Обходной путь — вручную перекопировать сервер в out/:**
+```bash
+# Подставь свой путь к Chromium (каталог src/)
+CHROMIUM_SRC=/home/ubuntu/knx-west/aib/chromium/src
+
+cp "$CHROMIUM_SRC/chrome/browser/browseros/server/resources/bin/browseros_server" \
+   "$CHROMIUM_SRC/out/Default_x64/BrowserOSServer/default/resources/bin/browseros_server"
+```
+
+После этого запуск браузера будет использовать актуальный bundled-сервер.
+
 ---
 
 ## См. также
