@@ -77,7 +77,7 @@ index deb531f8832e3..91cf6b70413ff 100644
 +              infobars::InfoBarDelegate::
 +                  BROWSEROS_AGENT_INSTALLING_INFOBAR_DELEGATE,
 +              nullptr,
-+              u"BrowserOS Agent is installing/updating. Please try again shortly.",
++              u"PonyAI Agent is installing/updating. Please try again shortly.",
 +              /*auto_expire=*/true,
 +              /*should_animate=*/true,
 +              /*closeable=*/true);

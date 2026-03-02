@@ -58,7 +58,7 @@ index 0000000000000..69b8e5a79f6fd
 +<!DOCTYPE html>
 +<html lang="en">
 +<head>
-+<title>BrowserOS — First Run</title>
++<title>PonyAI — First Run</title>
 +<meta charset="UTF-8">
 + <meta name="color-scheme" content="light dark">
 +<style>
@@ -196,7 +196,7 @@ index 0000000000000..69b8e5a79f6fd
 +<body>
 +<section class="hero">
 + <h1>The Open Source <span class="accent">Agentic</span> <span class="accent">Browser</span></h1>
-+ <p>BrowserOS is an AI-powered browser that lets you build and run agents to automate tedious tasks. It looks like Chrome but reimagined for the AI era.</p>
++ <p>PonyAI is an AI-powered browser that lets you build and run agents to automate tedious tasks. It looks like Chrome but reimagined for the AI era.</p>
 +</section>
 +
 +<section>
@@ -249,7 +249,7 @@ index 0000000000000..69b8e5a79f6fd
 +   </span>
 +   Step 3: All done!
 +  </div>
-+  <div class="muted" style="margin-top:.4rem">You're ready to use BrowserOS, have fun! This page can be always accessed again at <a href="chrome://browseros-first-run"><code>chrome://browseros-first-run</code></a></div>
++  <div class="muted" style="margin-top:.4rem">You're ready to use PonyAI, have fun! This page can be always accessed again at <a href="chrome://browseros-first-run"><code>chrome://browseros-first-run</code></a></div>
 + </div>
 +</section>
 +

@@ -6,20 +6,20 @@ index d73e9a053eb63..e22ef4d7024af 100644
  inline constexpr char kBookmarksTreeViewDescription[] =
      "Show the bookmarks side panel in a tree view while in compact mode.";
  
-+// BrowserOS: feature flags
++// PonyAI: feature flags
 +inline constexpr char kBrowserOsAlphaFeaturesName[] =
-+    "BrowserOS Alpha Features";
++    "PonyAI Alpha Features";
 +inline constexpr char kBrowserOsAlphaFeaturesDescription[] =
-+    "Enables BrowserOS alpha features.";
++    "Enables PonyAI alpha features.";
 +
-+inline constexpr char kBrowserOsClawdbotName[] = "BrowserOS Clawdbot";
++inline constexpr char kBrowserOsClawdbotName[] = "PonyAI Clawdbot";
 +inline constexpr char kBrowserOsClawdbotDescription[] =
 +    "Enables Clawdbot Browser Relay extension.";
 +
 +inline constexpr char kBrowserOsKeyboardShortcutsName[] =
-+    "BrowserOS Keyboard Shortcuts";
++    "PonyAI Keyboard Shortcuts";
 +inline constexpr char kBrowserOsKeyboardShortcutsDescription[] =
-+    "Enables BrowserOS keyboard shortcuts (Cmd+Shift+K, Cmd+Shift+L, "
++    "Enables PonyAI keyboard shortcuts (Cmd+Shift+K, Cmd+Shift+L, "
 +    "Option+A). Disable if these conflict with your keyboard layout.";
 +
  inline constexpr char kBrowsingHistoryActorIntegrationM1Name[] =
