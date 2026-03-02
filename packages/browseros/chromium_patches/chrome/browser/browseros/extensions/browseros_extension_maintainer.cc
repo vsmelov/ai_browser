@@ -1,9 +1,9 @@
 diff --git a/chrome/browser/browseros/extensions/browseros_extension_maintainer.cc b/chrome/browser/browseros/extensions/browseros_extension_maintainer.cc
 new file mode 100644
-index 0000000000000..404fb31de4e55
+index 0000000000000..0000000000000
 --- /dev/null
 +++ b/chrome/browser/browseros/extensions/browseros_extension_maintainer.cc
-@@ -0,0 +1,383 @@
+@@ -0,0 +1,384 @@
 +// Copyright 2024 The Chromium Authors
 +// Use of this source code is governed by a BSD-style license that can be
 +// found in the LICENSE file.

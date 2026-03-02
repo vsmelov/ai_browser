@@ -3,7 +3,7 @@ new file mode 100644
 index 0000000000000..52703e88e7478
 --- /dev/null
 +++ b/chrome/browser/browseros/extensions/browseros_extension_loader.cc
-@@ -0,0 +1,212 @@
+@@ -0,0 +1,217 @@
 +// Copyright 2024 The Chromium Authors
 +// Use of this source code is governed by a BSD-style license that can be
 +// found in the LICENSE file.
@@ -109,8 +109,12 @@ index 0000000000000..52703e88e7478
 +        kImmediateInstallDelay);
 +  }
 +
-+  // Maintainer owns the config now
-+  maintainer_->Start(config_url_, extension_ids_, std::move(last_config_));
++  // Maintainer disabled: would fetch CDN config and uninstall bundled agent.
++  // To re-enable: set kMaintainerEnabled to true.
++  constexpr bool kMaintainerEnabled = false;
++  if (kMaintainerEnabled) {
++    maintainer_->Start(config_url_, extension_ids_, std::move(last_config_));
++  }
 +}
 +
 +void BrowserOSExtensionLoader::TriggerImmediateInstallation(
@@ -198,7 +202,7 @@ index 0000000000000..52703e88e7478
 +    }
 +
 +    // Extensions installed via URL (kExternalPrefDownload from ExternalProvider,
-+    // or kExternalComponent from maintainer reinstall) must be claimed via
++    // or kExternalComponent) must be claimed via
 +    // external_update_url, not external_crx, to avoid orphan detection.
 +    auto location = ext->location();
 +    if (location ==

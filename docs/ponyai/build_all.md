@@ -66,8 +66,8 @@ zod fix discussion - https://discord.com/channels/1373640905223045141/1373641063
 ./scripts/pack_agent_crx.sh
 ```
 
-- Если есть ключ `packages/browseros/resources/extensions/agent.pem` → создаётся `bflpfmnmnokmjhmgnolecpppdbdophmk.crx` (стабильный ID).
-- Если ключа нет → создаётся `agent-pack.crx` и `agent-pack.pem`. Сохрани `.pem` как `agent.pem` для следующих раз:  
+- В форке: скрипт всегда создаёт `agent-pack.crx`. ID расширения зависит от ключа (наш ключ → `ijlpinlejblenhkmjpgbjglcjibmlenp`). Ключ: `agent.pem` в этой папке.
+- Если ключа нет → создаётся `agent-pack.crx` и `agent-pack.pem`. Сохрани `.pem` как `agent.pem` для стабильного ID:  
   `cp packages/browseros/resources/extensions/agent-pack.pem packages/browseros/resources/extensions/agent.pem`
 
 
@@ -84,7 +84,7 @@ python3 scripts/get_crx_extension_id.py packages/browseros/resources/extensions/
 
 Скрипт создаст `packages/browseros/resources/extensions/bundled_extensions.json` с нужным ID и версией. Файл `.crx` уже лежит там же. Без этого шага сборка браузера подхватит расширения с CDN, а не твой собранный пакет.
 
-(Если упаковывали с ключом `agent.pem`, получится `bflpfmnmnokmjhmgnolecpppdbdophmk.crx` — тогда можно скопировать `bundled_extensions.json.example` в `bundled_extensions.json` и проверить, что `external_version` совпадает с версией в manifest.)
+(В форке в JSON указываем наш ID `ijlpinlejblenhkmjpgbjglcjibmlenp` и `external_crx: "agent-pack.crx"`; см. `bundled_extensions.json.example`. Проверь, что `external_version` совпадает с версией в manifest.)
 
 
 

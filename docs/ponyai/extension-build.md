@@ -5,7 +5,7 @@
 ## Что делать дальше (порядок шагов)
 
 1. **Собрать расширение** → в `packages/browseros/resources/extensions/agent-build/` (unpacked). Скрипт: `build_ponyai_extension.sh` (есть на ветке `struggle_after_rebranding`; на main его можно взять оттуда или собрать вручную из субмодуля).
-2. **Упаковать в .crx** → `pack_agent_crx.sh`. Нужен ключ подписи `agent.pem` в `packages/browseros/resources/extensions/`, чтобы получить стабильный ID `bflpfmnmnokmjhmgnolecpppdbdophmk`.
+2. **Упаковать в .crx** → `pack_agent_crx.sh`. Скрипт создаёт `agent-pack.crx`. Ключ `agent.pem` в `packages/browseros/resources/extensions/` даёт стабильный ID (в форке: `ijlpinlejblenhkmjpgbjglcjibmlenp`).
 3. **Положить для сборки браузера** в `packages/browseros/resources/extensions/`: файл `bundled_extensions.json` и `.crx`. Версия в JSON (`external_version`) должна совпадать с версией в `manifest.json` внутри собранного расширения (см. ниже).
 4. **Сборка браузера** с `--prep`: шаг `bundled_extensions` при наличии в `resources/extensions/` файлов `bundled_extensions.json` и `*.crx` копирует их в дерево Chromium (локальные расширения); иначе расширения скачиваются с CDN.
 
@@ -76,12 +76,13 @@ BUILD_AGENT_WITHOUT_CLOUD=1 ./scripts/build_ponyai_extension.sh
 
 ```json
 {
-  "bflpfmnmnokmjhmgnolecpppdbdophmk": {
-    "external_crx": "bflpfmnmnokmjhmgnolecpppdbdophmk.crx",
+  "ijlpinlejblenhkmjpgbjglcjibmlenp": {
+    "external_crx": "agent-pack.crx",
     "external_version": "0.0.52"
   }
 }
 ```
+(В форке используем наш ID и `agent-pack.crx`; см. `bundled_extensions.json.example`.)
 
 **4. Локальные расширения в сборке браузера**
 

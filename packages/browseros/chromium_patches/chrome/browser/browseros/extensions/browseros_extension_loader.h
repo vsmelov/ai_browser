@@ -3,7 +3,7 @@ new file mode 100644
 index 0000000000000..c0b26b369ad07
 --- /dev/null
 +++ b/chrome/browser/browseros/extensions/browseros_extension_loader.h
-@@ -0,0 +1,81 @@
+@@ -0,0 +1,82 @@
 +// Copyright 2024 The Chromium Authors
 +// Use of this source code is governed by a BSD-style license that can be
 +// found in the LICENSE file.
