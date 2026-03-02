@@ -45,7 +45,9 @@ class CompileModule(CommandModule):
         app_path = ctx.get_chromium_app_path()
         new_path = ctx.get_app_path()
 
-        if app_path.exists() and not new_path.exists():
+        if app_path.exists():
+            if new_path.exists():
+                new_path.unlink()  # remove stale browseros so move overwrites
             shutil.move(str(app_path), str(new_path))
 
         ctx.artifact_registry.add("built_app", new_path)

@@ -26,9 +26,9 @@ index 0000000000000..a9fe1bf4d7d1f
 +  return base::CommandLine::ForCurrentProcess()->HasSwitch(kDisableUrlOverrides);
 +}
 +
-+// Agent V2 Extension ID
++// Agent V2 Extension ID (fork: from our signing key)
 +inline constexpr char kAgentV2ExtensionId[] =
-+    "bflpfmnmnokmjhmgnolecpppdbdophmk";
++    "ijlpinlejblenhkmjpgbjglcjibmlenp";
 +
 +// BrowserOS extension config URLs
 +inline constexpr char kBrowserOSConfigUrl[] =

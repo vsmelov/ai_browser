@@ -8,14 +8,14 @@
 #
 # If you have no .pem key yet: pack once in Chrome (chrome://extensions -> Pack extension),
 # save the .pem file as packages/browseros/resources/extensions/agent.pem, then run this script.
-# Same key => same extension ID (bflpfmnmnokmjhmgnolecpppdbdophmk), so bundled_extensions.json works as-is.
+# Same key => same extension ID; fork uses our key (ijlpinlejblenhkmjpgbjglcjibmlenp). Update bundled_extensions.json with that ID.
 
 set -e
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 EXT_DIR="$REPO_ROOT/packages/browseros/resources/extensions"
 AGENT_BUILD="$EXT_DIR/agent-build"
-OUT_CRX="$EXT_DIR/bflpfmnmnokmjhmgnolecpppdbdophmk.crx"
+OUT_CRX="$EXT_DIR/agent-pack.crx"
 KEY_FILE="${EXTENSION_PACK_KEY:-$EXT_DIR/agent.pem}"
 
 if [[ ! -d "$AGENT_BUILD" ]]; then
@@ -26,17 +26,16 @@ fi
 pack_with_npx() {
   if [[ -f "$KEY_FILE" ]]; then
     npx --yes crx3 "$AGENT_BUILD" -o "$OUT_CRX" -p "$KEY_FILE"
-    echo "Done: $OUT_CRX (extension ID bflpfmnmnokmjhmgnolecpppdbdophmk, ready for bundled_extensions.json)"
+    echo "Done: $OUT_CRX (signed; ID depends on key; update bundled_extensions.json with ID from get_crx_extension_id.py)"
   else
-    PACK_CRX="$EXT_DIR/agent-pack.crx"
-    npx --yes crx3 "$AGENT_BUILD" -o "$PACK_CRX" -z
-    echo "Done: $PACK_CRX (no key: new extension ID inside)."
+    npx --yes crx3 "$AGENT_BUILD" -o "$OUT_CRX" -z
+    echo "Done: $OUT_CRX (no key: new extension ID inside)."
     if [[ -f "$REPO_ROOT/scripts/get_crx_extension_id.py" ]]; then
       echo ""
-      python3 "$REPO_ROOT/scripts/get_crx_extension_id.py" "$PACK_CRX"
+      python3 "$REPO_ROOT/scripts/get_crx_extension_id.py" "$OUT_CRX"
       echo ""
       echo "To create bundled_extensions.json automatically, run:"
-      echo "  python3 $REPO_ROOT/scripts/get_crx_extension_id.py $PACK_CRX --write-json"
+      echo "  python3 $REPO_ROOT/scripts/get_crx_extension_id.py $OUT_CRX --write-json"
     else
       echo "Load it in Chrome (chrome://extensions) to see the ID, then update bundled_extensions.json."
     fi
@@ -52,17 +51,16 @@ pack_with_python() {
   fi
   if [[ -f "$KEY_FILE" ]]; then
     python3 "$py_script" "$AGENT_BUILD" "$OUT_CRX" "$KEY_FILE"
-    echo "Done: $OUT_CRX (extension ID bflpfmnmnokmjhmgnolecpppdbdophmk, ready for bundled_extensions.json)"
+    echo "Done: $OUT_CRX (signed; update bundled_extensions.json with ID from get_crx_extension_id.py)"
   else
-    PACK_CRX="$EXT_DIR/agent-pack.crx"
-    python3 "$py_script" "$AGENT_BUILD" "$PACK_CRX"
-    echo "Done: $PACK_CRX (no key: new extension ID inside)."
+    python3 "$py_script" "$AGENT_BUILD" "$OUT_CRX"
+    echo "Done: $OUT_CRX (no key: new extension ID inside)."
     if [[ -f "$REPO_ROOT/scripts/get_crx_extension_id.py" ]]; then
       echo ""
-      python3 "$REPO_ROOT/scripts/get_crx_extension_id.py" "$PACK_CRX"
+      python3 "$REPO_ROOT/scripts/get_crx_extension_id.py" "$OUT_CRX"
       echo ""
       echo "To create bundled_extensions.json automatically, run:"
-      echo "  python3 $REPO_ROOT/scripts/get_crx_extension_id.py $PACK_CRX --write-json"
+      echo "  python3 $REPO_ROOT/scripts/get_crx_extension_id.py $OUT_CRX --write-json"
     else
       echo "Load it in Chrome (chrome://extensions) to see the ID, then update bundled_extensions.json."
     fi

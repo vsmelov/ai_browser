@@ -76,13 +76,10 @@ index 0000000000000..27fadedbd37ef
 +
 +  LOG(INFO) << "browseros: Starting extension installation";
 +
-+  // TODO(nikhil): Re-enable bundled extension loading once OTA update flow is
-+  // fully validated. Remote install is now fast with InstallPendingNow fix.
-+#if 0
++  // Prefer bundled extensions (from build) when available; fallback to CDN.
 +  if (TryLoadFromBundled()) {
 +    return;
 +  }
-+#endif
 +
 +  FetchFromRemote();
 +}
@@ -203,6 +200,7 @@ index 0000000000000..27fadedbd37ef
 +
 +  LOG(INFO) << "browseros: Loaded " << result.prefs.size()
 +            << " bundled extensions";
++  LOG(INFO) << "browseros: Using bundled extensions (from_bundled=1)";
 +
 +  Complete(std::move(result));
 +}
