@@ -10,12 +10,11 @@ index 92a45baf84050..476d604b649fc 100644
  #include "base/base_switches.h"
  #include "base/check.h"
  #include "base/command_line.h"
-@@ -1233,6 +1234,8 @@ int ChromeBrowserMainParts::PreCreateThreadsImpl() {
+@@ -1233,6 +1234,7 @@ int ChromeBrowserMainParts::PreCreateThreadsImpl() {
    if (first_run::IsChromeFirstRun()) {
      if (!base::CommandLine::ForCurrentProcess()->HasSwitch(switches::kApp) &&
          !base::CommandLine::ForCurrentProcess()->HasSwitch(switches::kAppId)) {
 +      browser_creator_->AddFirstRunTabs({GURL("chrome://browseros-first-run")});
-+      browser_creator_->AddFirstRunTabs({GURL("https://bit.ly/BrowserOS-setup")});
        browser_creator_->AddFirstRunTabs(master_prefs_->new_tabs);
      }
    }

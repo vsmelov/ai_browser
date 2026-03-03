@@ -3,7 +3,7 @@ new file mode 100644
 index 0000000000000..69b8e5a79f6fd
 --- /dev/null
 +++ b/chrome/browser/ui/webui/nxtscape_first_run.h
-@@ -0,0 +1,358 @@
+@@ -0,0 +1,357 @@
 +#ifndef CHROME_BROWSER_UI_WEBUI_NXTSCAPE_FIRST_RUN_H_
 +#define CHROME_BROWSER_UI_WEBUI_NXTSCAPE_FIRST_RUN_H_
 +
@@ -202,7 +202,6 @@ index 0000000000000..69b8e5a79f6fd
 +<section>
 + <div class="section-head"><span class="label">🚀 Getting Started</span></div>
 + <div style="text-align:center;">
-+  <a class="btn btn-accent" href="https://bit.ly/BrowserOS-setup">Quick start guide</a>
 +  <a class="btn btn-outline" href="https://github.com/nxtscape/nxtscape">
 +   <span class="icon" aria-hidden="true">
 +    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#eac54f"><path d="m354-287 126-76 126 77-33-144 111-96-146-13-58-136-58 135-146 13 111 97-33 143ZM233-120l65-281L80-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Zm247-350Z"/></svg>

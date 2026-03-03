@@ -31,6 +31,7 @@ def find_patch_files(patches_dir: Path) -> List[Path]:
             and not p.name.endswith(".deleted")
             and not p.name.endswith(".binary")
             and not p.name.endswith(".rename")
+            and not (p.name == "patch_result_hashes.json")  # manifest, not a patch
             and not p.name.startswith(".")
         ]
     )

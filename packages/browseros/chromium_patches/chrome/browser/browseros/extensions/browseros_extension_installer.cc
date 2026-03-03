@@ -3,7 +3,7 @@ new file mode 100644
 index 0000000000000..27fadedbd37ef
 --- /dev/null
 +++ b/chrome/browser/browseros/extensions/browseros_extension_installer.cc
-@@ -0,0 +1,341 @@
+@@ -0,0 +1,339 @@
 +// Copyright 2024 The Chromium Authors
 +// Use of this source code is governed by a BSD-style license that can be
 +// found in the LICENSE file.
