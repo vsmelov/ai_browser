@@ -23,6 +23,9 @@ nxtscape-cli-access.json
 gclient.json
 .env
 
+# Local copies (e.g. from other repos)
+tmp/
+
 # Build / cache
 .cache/
 packages/browseros/out.log

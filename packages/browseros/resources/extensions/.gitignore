@@ -1,0 +1,8 @@
+# Unpacked build (from build_ponyai_extension.sh)
+agent-build/
+
+# Packed CRX (from pack_agent_crx.sh) — one file used by bundled_extensions.json
+*.crx
+
+# Signing keys (never commit)
+*.pem

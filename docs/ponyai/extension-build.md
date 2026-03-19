@@ -1,4 +1,4 @@
-# Сборка расширения Agent (PonyAI)
+# Сборка расширения Agent (PonyClaw)
 
 Кратко: где что лежит, какой коммит агента берём, команды. Source map при сборке расширения отключать всегда (иначе сборка идёт бесконечно).
 
@@ -99,7 +99,7 @@ BUILD_AGENT_WITHOUT_CLOUD=1 ./scripts/build_ponyai_extension.sh
 <chromium-src>/out/Default_x64/browseros --enable-logging=stderr --user-data-dir=/tmp/test-profile
 ```
 
-(Или `PonyAI` / другое имя бинарника в зависимости от брендинга.)
+(Или `PonyClaw` / другое имя бинарника в зависимости от брендинга.)
 
 ---
 

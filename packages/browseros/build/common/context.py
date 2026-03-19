@@ -154,7 +154,7 @@ class BuildConfig:
         # App names - will be set based on platform
         self.CHROMIUM_APP_NAME = ""
         self.BROWSEROS_APP_NAME = ""
-        self.BROWSEROS_APP_BASE_NAME = "BrowserOS"
+        self.BROWSEROS_APP_BASE_NAME = "PonyClaw"
 
         # Third party versions
         self.SPARKLE_VERSION = "2.7.0"
@@ -235,7 +235,8 @@ class Context:
             self.architecture = get_platform_arch()
             self.build.architecture = self.architecture
 
-        # Set platform-specific app names
+        # Set platform-specific app names (use build's base name for display)
+        self.BROWSEROS_APP_BASE_NAME = self.build.BROWSEROS_APP_BASE_NAME
         if IS_WINDOWS():
             self.CHROMIUM_APP_NAME = f"chrome{get_executable_extension()}"
             self.BROWSEROS_APP_NAME = (

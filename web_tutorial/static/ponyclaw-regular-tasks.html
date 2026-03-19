@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PonyClaw · Regular tasks</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --bg-card: #1e293b;
+      --bg-elevated: #334155;
+      --border: #334155;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-dim: rgba(56, 189, 248, 0.15);
+      --success: #34d399;
+      --warn: #fbbf24;
+      --danger: #f87171;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; font-family: system-ui, sans-serif; background: var(--bg); color: var(--text); padding: 1.5rem 2rem 2rem; }
+    .nav-top { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+    .nav-top a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; }
+    .nav-top a:hover { color: var(--accent); }
+    .header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.5rem; }
+    .header h1 { font-size: 1.5rem; font-weight: 700; margin: 0; }
+    .toolbar { display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; }
+    .search { padding: 0.5rem 0.75rem; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-card); color: var(--text); font-size: 0.9rem; width: 200px; }
+    .search::placeholder { color: var(--text-muted); }
+    .filter-btn { padding: 0.5rem 0.75rem; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-card); color: var(--text-muted); font-size: 0.85rem; cursor: pointer; }
+    .filter-btn:hover, .filter-btn.active { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+    .btn-primary { padding: 0.5rem 1rem; border-radius: 8px; border: none; background: var(--accent); color: var(--bg); font-weight: 600; font-size: 0.9rem; cursor: pointer; }
+    .btn-primary:hover { filter: brightness(1.1); }
+    .stats-row { display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+    .stat-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 1rem 1.25rem; min-width: 140px; }
+    .stat-box .val { font-size: 1.5rem; font-weight: 700; color: var(--text); }
+    .stat-box .label { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.25rem; }
+    .table-wrap { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.15); }
+    table { width: 100%; border-collapse: collapse; }
+    th { text-align: left; padding: 0.85rem 1rem; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); background: var(--bg-elevated); border-bottom: 1px solid var(--border); }
+    td { padding: 0.85rem 1rem; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(56, 189, 248, 0.04); }
+    .status { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.25rem 0.6rem; border-radius: 6px; font-size: 0.8rem; font-weight: 500; }
+    .status.active { background: rgba(52, 211, 153, 0.2); color: var(--success); }
+    .status.paused { background: rgba(251, 191, 36, 0.2); color: var(--warn); }
+    .status.failed { background: rgba(248, 113, 113, 0.2); color: var(--danger); }
+    .status.running { background: var(--accent-dim); color: var(--accent); }
+    .status::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+    .status.running::before { animation: pulse 1.2s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{ opacity:1 } 50%{ opacity:0.4 } }
+    .schedule { color: var(--text-muted); font-size: 0.85rem; }
+    .actions { display: flex; gap: 0.5rem; }
+    .actions button { padding: 0.35rem 0.6rem; border-radius: 6px; border: 1px solid var(--border); background: transparent; color: var(--text-muted); font-size: 0.8rem; cursor: pointer; }
+    .actions button:hover { border-color: var(--accent); color: var(--accent); }
+  </style>
+</head>
+<body>
+  <nav class="nav-top">
+    <a href="ponyclaw-dashboard.html">← Dashboard</a>
+    <span style="color: var(--border);">·</span>
+    <span style="color: var(--text-muted); font-size: 0.9rem;">Regular tasks</span>
+  </nav>
+
+  <div class="header">
+    <h1>Regular tasks</h1>
+    <div class="toolbar">
+      <input type="search" class="search" placeholder="Search tasks…" aria-label="Search">
+      <button type="button" class="filter-btn active">All</button>
+      <button type="button" class="filter-btn">Active</button>
+      <button type="button" class="filter-btn">Paused</button>
+      <button type="button" class="btn-primary">+ New task</button>
+    </div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-box"><div class="val">12</div><div class="label">Total tasks</div></div>
+    <div class="stat-box"><div class="val">9</div><div class="label">Active</div></div>
+    <div class="stat-box"><div class="val">2</div><div class="label">Running now</div></div>
+    <div class="stat-box"><div class="val">1</div><div class="label">Failed (retry)</div></div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Task</th>
+          <th>Schedule</th>
+          <th>Status</th>
+          <th>Last run</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Daily digest</strong><br><span class="schedule">Summarize inbox &amp; highlights</span></td>
+          <td>Daily 08:00</td>
+          <td><span class="status active">Active</span></td>
+          <td>2 hours ago</td>
+          <td><div class="actions"><button>Run</button><button>Edit</button></div></td>
+        </tr>
+        <tr>
+          <td><strong>Twitter mentions</strong><br><span class="schedule">Check @mentions and reply drafts</span></td>
+          <td>Every 2 hours</td>
+          <td><span class="status running">Running</span></td>
+          <td>Now</td>
+          <td><div class="actions"><button>Stop</button><button>Edit</button></div></td>
+        </tr>
+        <tr>
+          <td><strong>Telegram alerts</strong><br><span class="schedule">Forward important to Email</span></td>
+          <td>Every 15 min</td>
+          <td><span class="status active">Active</span></td>
+          <td>8 min ago</td>
+          <td><div class="actions"><button>Run</button><button>Edit</button></div></td>
+        </tr>
+        <tr>
+          <td><strong>Stacker News upvotes</strong><br><span class="schedule">Sync saved posts</span></td>
+          <td>Daily 12:00</td>
+          <td><span class="status failed">Failed</span></td>
+          <td>1 day ago</td>
+          <td><div class="actions"><button>Retry</button><button>Edit</button></div></td>
+        </tr>
+        <tr>
+          <td><strong>Email triage</strong><br><span class="schedule">Label &amp; archive read</span></td>
+          <td>Every 30 min</td>
+          <td><span class="status paused">Paused</span></td>
+          <td>3 days ago</td>
+          <td><div class="actions"><button>Run</button><button>Edit</button></div></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

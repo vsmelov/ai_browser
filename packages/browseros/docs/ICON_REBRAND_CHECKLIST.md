@@ -1,4 +1,4 @@
-# Чек-лист: иконки и ребрендинг PonyAI
+# Чек-лист: иконки и ребрендинг PonyClaw
 
 ## Как устроена подмена иконок
 
@@ -22,7 +22,7 @@
 
 | Файл | Назначение | Действие |
 |------|------------|----------|
-| `build/scripts/icon_generation/source/app_icon.png` | Все PNG, ICO, ICNS, XPM в сборке | Открыть и убедиться, что это **логотип PonyAI** (не оранжевый BrowserOS). Если нет — заменить на PonyAI 1024×1024. |
+| `build/scripts/icon_generation/source/app_icon.png` | Все PNG, ICO, ICNS, XPM в сборке | Открыть и убедиться, что это **логотип PonyClaw** (не оранжевый BrowserOS). Если нет — заменить на PonyClaw 1024×1024. |
 
 От этого файла зависят: иконка приложения (окно, панель задач), кнопка Assistant (IDR_PRODUCT_LOGO_16), все размеры product_logo_*.png, win/chromium.ico, mac/AppIcon, linux/product_logo_32.xpm и т.д.
 
@@ -30,9 +30,9 @@
 
 | Файл | Назначение | Действие |
 |------|------------|----------|
-| `build/scripts/icon_generation/static/product_logo.svg` | Копируется в `resources/icons/product_logo.svg` при запуске generate_icons.py | Сейчас внутри **оранжевый BrowserOS** (#fb651f). Заменить содержимое на **PonyAI SVG**. |
-| `build/scripts/icon_generation/static/product_logo_animation.svg` | Копируется в `resources/icons/product_logo_animation.svg` | То же — заменить на PonyAI. |
-| `build/scripts/icon_generation/static/product_logo.ai` | Только копируется (сейчас пустой) | По желанию положить PonyAI .ai, если будете править логотип в Illustrator. |
+| `build/scripts/icon_generation/static/product_logo.svg` | Копируется в `resources/icons/product_logo.svg` при запуске generate_icons.py | Сейчас внутри **оранжевый BrowserOS** (#fb651f). Заменить содержимое на **PonyClaw SVG**. |
+| `build/scripts/icon_generation/static/product_logo_animation.svg` | Копируется в `resources/icons/product_logo_animation.svg` | То же — заменить на PonyClaw. |
+| `build/scripts/icon_generation/static/product_logo.ai` | Только копируется (сейчас пустой) | По желанию положить PonyClaw .ai, если будете править логотип в Illustrator. |
 
 Если не заменить static/*.svg и потом снова запустить `generate_icons.py`, то текущий большой `resources/icons/product_logo.svg` (166 KB, с base64) будет **перезаписан** маленьким BrowserOS-SVG из static.
 
@@ -40,9 +40,9 @@
 
 | Что | Комментарий |
 |-----|-------------|
-| `resources/icons/product_logo.svg` | Сейчас 166 KB (SVG с встроенным PNG). После замены static/product_logo.svg на PonyAI и запуска generate_icons.py будет перезаписан. Либо не запускать COPY и оставить этот файл вручную как PonyAI. |
+| `resources/icons/product_logo.svg` | Сейчас 166 KB (SVG с встроенным PNG). После замены static/product_logo.svg на PonyClaw и запуска generate_icons.py будет перезаписан. Либо не запускать COPY и оставить этот файл вручную как PonyClaw. |
 | `resources/icons/product_logo_animation.svg` | Должен совпадать с static после generate_icons. Заменить исходник в static. |
-| `resources/icons/linux/product_logo_32.xpm` | Генерируется из `app_icon.png`. Если app_icon.png — PonyAI, после перезапуска generate_icons будет PonyAI. |
+| `resources/icons/linux/product_logo_32.xpm` | Генерируется из `app_icon.png`. Если app_icon.png — PonyClaw, после перезапуска generate_icons будет PonyClaw. |
 | `resources/icons/mac/` | Только Contents.json в репо; appicon_*.png создаёт generate_icons из app_icon.png. Проверить после генерации. |
 
 Остальных PNG/ICO в репо нет (они либо в .gitignore, либо создаются только при сборке). Имеет смысл после замены источников один раз запустить `generate_icons.py` и либо закоммитить результат, либо убедиться, что сборка его подхватывает.
@@ -51,13 +51,13 @@
 
 | Место | Текущее имя | Примечание |
 |-------|-------------|------------|
-| `build/modules/package/linux.py` | `browseros.png` (в пути 256x256/apps/browseros.png и в AppDir) | Иконка по содержимому будет PonyAI, если заменили app_icon.png. Имя файла можно позже сменить на ponyai.png и поправить в linux.py. |
+| `build/modules/package/linux.py` | `browseros.png` (в пути 256x256/apps/browseros.png и в AppDir) | Иконка по содержимому будет PonyClaw, если заменили app_icon.png. Имя файла можно позже сменить на ponyai.png и поправить в linux.py. |
 
 ---
 
 ## Краткий порядок действий
 
-1. Заменить **PonyAI** контентом:
+1. Заменить **PonyClaw** контентом:
    - `build/scripts/icon_generation/source/app_icon.png`
    - `build/scripts/icon_generation/static/product_logo.svg`
    - `build/scripts/icon_generation/static/product_logo_animation.svg`
@@ -67,4 +67,4 @@
 3. Убедиться, что сборка копирует сгенерированные `resources/icons/` в Chromium (copy_resources.yaml уже настроен).
 4. При необходимости закоммитить обновлённые файлы в `resources/icons/` и в `icon_generation/source/` и `static/`.
 
-После этого ни PNG, ни ICO, ни SVG в сборке не будут содержать старые иконки BrowserOS — только PonyAI.
+После этого ни PNG, ни ICO, ни SVG в сборке не будут содержать старые иконки BrowserOS — только PonyClaw.

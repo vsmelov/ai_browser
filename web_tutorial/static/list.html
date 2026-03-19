@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All pages · PonyClaw</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --bg-card: #1e293b;
+      --border: #334155;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --accent: #38bdf8;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 1.5rem 2rem 2rem;
+    }
+    h1 { font-size: 1.5rem; font-weight: 700; margin: 0 0 1.5rem; }
+    .section { margin-bottom: 1.5rem; }
+    .section-title { font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 0.75rem; }
+    ul { list-style: none; margin: 0; padding: 0; }
+    li { margin-bottom: 0.5rem; }
+    li a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 0.9rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    li a:hover { border-color: var(--accent); color: var(--accent); }
+    li a::after { content: '→'; margin-left: auto; color: var(--text-muted); font-size: 0.9rem; }
+    li a:hover::after { color: var(--accent); }
+    .path { font-size: 0.8rem; color: var(--text-muted); margin-left: 0.5rem; }
+  </style>
+</head>
+<body>
+  <h1>All pages</h1>
+
+  <div class="section">
+    <div class="section-title">Onboarding</div>
+    <ul>
+      <li><a href="index.html">PonyClaw Onboarding <span class="path">index.html</span></a></li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Dashboard &amp; sections</div>
+    <ul>
+      <li><a href="ponyclaw-dashboard.html">PonyClaw Dashboard <span class="path">ponyclaw-dashboard.html</span></a></li>
+      <li><a href="ponyclaw-regular-tasks.html">PonyClaw Regular tasks <span class="path">ponyclaw-regular-tasks.html</span></a></li>
+      <li><a href="ponyclaw-socials.html">PonyClaw Socials &amp; automation <span class="path">ponyclaw-socials.html</span></a></li>
+      <li><a href="x402-dashboard.html">x402 Dashboard <span class="path">x402-dashboard.html</span></a></li>
+    </ul>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PonyClaw · Socials &amp; automation</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --bg-card: #1e293b;
+      --bg-elevated: #334155;
+      --border: #334155;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-dim: rgba(56, 189, 248, 0.15);
+      --success: #34d399;
+      --warn: #fbbf24;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; font-family: system-ui, sans-serif; background: var(--bg); color: var(--text); padding: 1.5rem 2rem 2rem; }
+    .nav-top { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+    .nav-top a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; }
+    .nav-top a:hover { color: var(--accent); }
+    .header { margin-bottom: 1.5rem; }
+    .header h1 { font-size: 1.5rem; font-weight: 700; margin: 0 0 0.25rem; }
+    .header p { margin: 0; color: var(--text-muted); font-size: 0.9rem; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+    .panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+    }
+    .panel-head { padding: 1rem 1.25rem; border-bottom: 1px solid var(--border); font-weight: 600; font-size: 0.95rem; display: flex; align-items: center; justify-content: space-between; }
+    .panel-head .badge { font-size: 0.75rem; font-weight: 500; color: var(--text-muted); background: var(--bg-elevated); padding: 0.2rem 0.5rem; border-radius: 6px; }
+    .connected { display: flex; flex-direction: column; gap: 0; }
+    .connected-item { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.25rem; border-bottom: 1px solid var(--border); }
+    .connected-item:last-child { border-bottom: none; }
+    .connected-item .icon { width: 40px; height: 40px; border-radius: 10px; background: var(--bg-elevated); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+    .connected-item .name { font-weight: 500; }
+    .connected-item .meta { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.15rem; }
+    .connected-item .status { margin-left: auto; width: 8px; height: 8px; border-radius: 50%; background: var(--success); }
+    .feed { max-height: 320px; overflow-y: auto; }
+    .feed-item { padding: 0.9rem 1.25rem; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .feed-item:hover { background: rgba(56, 189, 248, 0.04); }
+    .feed-item .source { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem; }
+    .feed-item .preview { color: var(--text); line-height: 1.4; }
+    .feed-item .time { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.35rem; }
+    .rules-list { padding: 0.5rem 0; }
+    .rule { display: flex; align-items: center; gap: 1rem; padding: 0.85rem 1.25rem; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .rule:last-child { border-bottom: none; }
+    .rule .trigger { color: var(--accent); font-weight: 500; }
+    .rule .arrow { color: var(--text-muted); font-size: 0.8rem; }
+    .rule .action { color: var(--text-muted); }
+    .rule .toggle { margin-left: auto; width: 36px; height: 20px; border-radius: 10px; background: var(--bg-elevated); position: relative; cursor: pointer; }
+    .rule .toggle.on { background: var(--accent); }
+    .rule .toggle::after { content: ''; position: absolute; width: 16px; height: 16px; border-radius: 50%; background: #fff; top: 2px; left: 2px; transition: transform 0.2s; }
+    .rule .toggle.on::after { transform: translateX(16px); }
+    .full-width { grid-column: 1 / -1; }
+  </style>
+</head>
+<body>
+  <nav class="nav-top">
+    <a href="ponyclaw-dashboard.html">← Dashboard</a>
+    <span style="color: var(--border);">·</span>
+    <span style="color: var(--text-muted); font-size: 0.9rem;">Socials &amp; automation</span>
+  </nav>
+
+  <div class="header">
+    <h1>Socials &amp; automation</h1>
+    <p>Monitor and manage Twitter, Telegram, and Email. Inbox and automation rules.</p>
+  </div>
+
+  <div class="grid">
+    <div class="panel">
+      <div class="panel-head">Connected accounts <span class="badge">3</span></div>
+      <div class="connected">
+        <div class="connected-item">
+          <div class="icon">✉️</div>
+          <div><div class="name">Gmail</div><div class="meta">user@gmail.com</div></div>
+          <span class="status" title="Connected"></span>
+        </div>
+        <div class="connected-item">
+          <div class="icon">📱</div>
+          <div><div class="name">Telegram</div><div class="meta">@handle</div></div>
+          <span class="status" title="Connected"></span>
+        </div>
+        <div class="connected-item">
+          <div class="icon">𝕏</div>
+          <div><div class="name">X (Twitter)</div><div class="meta">@handle</div></div>
+          <span class="status" title="Connected"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head">Unified activity <span class="badge">Last 24h</span></div>
+      <div class="feed">
+        <div class="feed-item">
+          <div class="source">Telegram · Support bot</div>
+          <div class="preview">New message: "Your request #442 has been updated."</div>
+          <div class="time">12 min ago</div>
+        </div>
+        <div class="feed-item">
+          <div class="source">Email · newsletter@example.com</div>
+          <div class="preview">Subject: Weekly digest — 5 new posts</div>
+          <div class="time">1 hour ago</div>
+        </div>
+        <div class="feed-item">
+          <div class="source">X · @dev</div>
+          <div class="preview">Mention: "@you check out x402 — micropayments are live"</div>
+          <div class="time">2 hours ago</div>
+        </div>
+        <div class="feed-item">
+          <div class="source">Telegram · Group</div>
+          <div class="preview">3 new messages in PonyClaw Community</div>
+          <div class="time">3 hours ago</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel full-width">
+      <div class="panel-head">Automation rules</div>
+      <div class="rules-list">
+        <div class="rule">
+          <span class="trigger">Telegram: keyword "urgent"</span>
+          <span class="arrow">→</span>
+          <span class="action">Forward to Email, label Urgent</span>
+          <div class="toggle on" role="button" tabindex="0" aria-label="Toggle rule"></div>
+        </div>
+        <div class="rule">
+          <span class="trigger">Email: from newsletter@</span>
+          <span class="arrow">→</span>
+          <span class="action">Summarize and post to Telegram private</span>
+          <div class="toggle on" role="button" tabindex="0" aria-label="Toggle rule"></div>
+        </div>
+        <div class="rule">
+          <span class="trigger">X: mention @you</span>
+          <span class="arrow">→</span>
+          <span class="action">Draft reply with AI, notify in Telegram</span>
+          <div class="toggle on" role="button" tabindex="0" aria-label="Toggle rule"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.querySelectorAll('.rule .toggle').forEach(function (el) {
+      el.addEventListener('click', function () { this.classList.toggle('on'); });
+    });
+  </script>
+</body>
+</html>

@@ -174,7 +174,7 @@ def create_desktop_file(apps_dir: Path, exec_path: str) -> Path:
 
     desktop_content = f"""[Desktop Entry]
 Version=1.0
-Name=BrowserOS
+Name=PonyClaw
 GenericName=Web Browser
 Comment=Browse the World Wide Web
 Exec={exec_path} %U

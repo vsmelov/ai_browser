@@ -3,7 +3,7 @@ new file mode 100644
 index 0000000000000..0d9d3f049581c
 --- /dev/null
 +++ b/chrome/browser/browseros/server/browseros_server_manager.cc
-@@ -0,0 +1,1072 @@
+@@ -0,0 +1,1071 @@
 +// Copyright 2024 The Chromium Authors
 +// Use of this source code is governed by a BSD-style license that can be
 +// found in the LICENSE file.
@@ -324,18 +324,16 @@ index 0000000000000..0d9d3f049581c
 +  base::CommandLine* command_line = base::CommandLine::ForCurrentProcess();
 +  std::set<int> assigned_ports;
 +
++  // CDP is already bound by StartCDPServer() above — do not re-resolve. If we
++  // called FindAvailablePort(ports_.cdp) here it would see 9100 in use and
++  // return 9101; the sidecar would then try to connect to 9101 and fail (CDP
++  // is on 9100). So keep ports_.cdp as-is and only reserve it in assigned_ports.
++  assigned_ports.insert(ports_.cdp);
++
 +  // Skip FindAvailablePort for CLI-overridden ports — trust the developer.
-+  bool cdp_fixed = command_line->HasSwitch(browseros::kCDPPort);
 +  bool proxy_fixed = command_line->HasSwitch(browseros::kProxyPort);
 +  bool server_fixed = command_line->HasSwitch(browseros::kServerPort);
 +  bool extension_fixed = command_line->HasSwitch(browseros::kExtensionPort);
-+
-+  if (cdp_fixed) {
-+    assigned_ports.insert(ports_.cdp);
-+  } else {
-+    ports_.cdp = server_utils::FindAvailablePort(ports_.cdp, assigned_ports);
-+    assigned_ports.insert(ports_.cdp);
-+  }
 +
 +  if (proxy_fixed) {
 +    assigned_ports.insert(ports_.proxy);

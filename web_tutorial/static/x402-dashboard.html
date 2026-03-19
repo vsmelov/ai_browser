@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>x402 Dashboard · PonyClaw</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --bg-card: #1e293b;
+      --bg-elevated: #334155;
+      --border: #334155;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-dim: rgba(56, 189, 248, 0.15);
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 1.5rem 2rem 2rem;
+    }
+    .nav-top { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.25rem; }
+    .nav-top a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; }
+    .nav-top a:hover { color: var(--accent); }
+    .dashboard-header { font-size: 1.35rem; font-weight: 700; margin-bottom: 1.5rem; letter-spacing: -0.02em; }
+    .panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.25rem;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+    }
+    .panel-title { font-size: 0.9rem; font-weight: 600; color: var(--accent); margin-bottom: 0.75rem; }
+    .chart-wrap { position: relative; height: 220px; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    @media (max-width: 640px) { .row { grid-template-columns: 1fr; } }
+    .limit-controls { display: flex; gap: 0.5rem; align-items: center; margin-top: 0.75rem; flex-wrap: wrap; }
+    .limit-controls input {
+      width: 100px;
+      padding: 0.45rem 0.6rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      background: var(--bg-elevated);
+      color: var(--text);
+    }
+    .limit-controls button {
+      padding: 0.45rem 0.85rem;
+      font-size: 0.85rem;
+      border-radius: 8px;
+      border: 1px solid var(--accent);
+      background: var(--accent-dim);
+      color: var(--accent);
+      cursor: pointer;
+      font-weight: 500;
+    }
+    .limit-controls button:hover { background: rgba(56, 189, 248, 0.25); }
+  </style>
+</head>
+<body>
+  <nav class="nav-top">
+    <a href="ponyclaw-dashboard.html">← Dashboard</a>
+    <span style="color: var(--border);">·</span>
+    <span style="color: var(--text-muted); font-size: 0.9rem;">x402</span>
+  </nav>
+  <h1 class="dashboard-header">x402 Dashboard</h1>
+
+  <!-- 1. Top: Total x402 micropayments stacked by service -->
+  <div class="panel">
+    <div class="panel-title">Total x402 micropayments</div>
+    <div class="chart-wrap">
+      <canvas id="chart-stacked"></canvas>
+    </div>
+  </div>
+
+  <!-- 2. Bottom row: Histogram + Limit doughnut -->
+  <div class="row">
+    <div class="panel">
+      <div class="panel-title">Spending by service (total)</div>
+      <div class="chart-wrap">
+        <canvas id="chart-histogram"></canvas>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-title">x402 limit used</div>
+      <div class="chart-wrap" style="height: 180px;">
+        <canvas id="chart-limit"></canvas>
+      </div>
+      <div class="limit-controls">
+        <input type="number" id="limit-input" placeholder="Limit" value="1000" min="1" aria-label="Set limit">
+        <button type="button" id="btn-set-limit">Set limit</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      // Top chart: stacked area — warm/earthy palette (no blue)
+      var areaColors = {
+        blockrun: { border: '#f59e0b', fill: 'rgba(245, 158, 11, 0.5)' },
+        stacker: { border: '#10b981', fill: 'rgba(16, 185, 129, 0.5)' },
+        unleashed: { border: '#f43f5e', fill: 'rgba(244, 63, 94, 0.45)' },
+        yalls: { border: '#8b5cf6', fill: 'rgba(139, 92, 246, 0.45)' },
+        zapstream: { border: '#ec4899', fill: 'rgba(236, 72, 153, 0.45)' },
+        primal: { border: '#14b8a6', fill: 'rgba(20, 184, 166, 0.45)' }
+      };
+
+      // 1. Stacked area (line chart with fill) — Blockrun AI API biggest
+      var labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+      var blockrun = [82, 95, 88, 102, 98, 91, 85];
+      var stackerNews = [52, 61, 58, 67, 73, 69, 55];
+      var unleashedChat = [28, 34, 31, 38, 42, 36, 30];
+      var yalls = [18, 22, 19, 25, 21, 20, 23];
+      var zapStream = [14, 16, 15, 18, 17, 19, 16];
+      var primal = [12, 14, 11, 16, 15, 17, 13];
+
+      new Chart(document.getElementById('chart-stacked'), {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [
+            { label: 'Blockrun AI API', data: blockrun, borderColor: areaColors.blockrun.border, backgroundColor: areaColors.blockrun.fill, fill: true, tension: 0.35, pointRadius: 2, borderWidth: 2 },
+            { label: 'Stacker News', data: stackerNews, borderColor: areaColors.stacker.border, backgroundColor: areaColors.stacker.fill, fill: true, tension: 0.35, pointRadius: 2, borderWidth: 2 },
+            { label: 'Unleashed Chat', data: unleashedChat, borderColor: areaColors.unleashed.border, backgroundColor: areaColors.unleashed.fill, fill: true, tension: 0.35, pointRadius: 2, borderWidth: 2 },
+            { label: 'Yalls', data: yalls, borderColor: areaColors.yalls.border, backgroundColor: areaColors.yalls.fill, fill: true, tension: 0.35, pointRadius: 2, borderWidth: 2 },
+            { label: 'Zap.Stream', data: zapStream, borderColor: areaColors.zapstream.border, backgroundColor: areaColors.zapstream.fill, fill: true, tension: 0.35, pointRadius: 2, borderWidth: 2 },
+            { label: 'Primal', data: primal, borderColor: areaColors.primal.border, backgroundColor: areaColors.primal.fill, fill: true, tension: 0.35, pointRadius: 2, borderWidth: 2 }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: { mode: 'index', intersect: false },
+          plugins: { legend: { position: 'bottom', labels: { color: '#94a3b8', usePointStyle: true } } },
+          scales: {
+            x: { stacked: true, grid: { color: 'rgba(148,163,184,0.2)' }, ticks: { color: '#94a3b8' } },
+            y: { stacked: true, grid: { color: 'rgba(148,163,184,0.2)' }, ticks: { color: '#94a3b8' }, beginAtZero: true }
+          }
+        }
+      });
+
+      // 2. Histogram: total spent by service (Blockrun biggest)
+      var totals = [
+        blockrun.reduce(function(a,b){ return a+b; }, 0),
+        stackerNews.reduce(function(a,b){ return a+b; }, 0),
+        unleashedChat.reduce(function(a,b){ return a+b; }, 0),
+        yalls.reduce(function(a,b){ return a+b; }, 0),
+        zapStream.reduce(function(a,b){ return a+b; }, 0),
+        primal.reduce(function(a,b){ return a+b; }, 0)
+      ];
+      var serviceLabels = ['Blockrun AI API', 'Stacker News', 'Unleashed Chat', 'Yalls', 'Zap.Stream', 'Primal'];
+      new Chart(document.getElementById('chart-histogram'), {
+        type: 'bar',
+        data: {
+          labels: serviceLabels,
+          datasets: [{ label: 'Total spent', data: totals, backgroundColor: ['#38bdf8', '#2563eb', '#06b6d4', '#6366f1', '#0ea5e9', '#7c3aed'] }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { grid: { display: false }, ticks: { color: '#94a3b8' } },
+            y: { grid: { color: 'rgba(148,163,184,0.2)' }, ticks: { color: '#94a3b8' }, beginAtZero: true }
+          }
+        }
+      });
+
+      // 3. Doughnut: limit used vs available + set limit
+      var limitTotal = 1000;
+      var limitUsed = 387;
+      var limitChart = new Chart(document.getElementById('chart-limit'), {
+        type: 'doughnut',
+        data: {
+          labels: ['Used', 'Available'],
+          datasets: [{
+            data: [limitUsed, limitTotal - limitUsed],
+            backgroundColor: ['#38bdf8', '#334155'],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: '65%',
+          plugins: { legend: { position: 'bottom', labels: { color: '#94a3b8' } } }
+        }
+      });
+
+      document.getElementById('btn-set-limit').addEventListener('click', function () {
+        var val = parseInt(document.getElementById('limit-input').value, 10);
+        if (val > 0 && val >= limitUsed) {
+          limitTotal = val;
+          limitChart.data.datasets[0].data = [limitUsed, limitTotal - limitUsed];
+          limitChart.update();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

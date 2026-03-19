@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PonyClaw Dashboard</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --bg-card: #1e293b;
+      --bg-elevated: #334155;
+      --border: #334155;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-dim: rgba(56, 189, 248, 0.15);
+      --success: #34d399;
+      --warn: #fbbf24;
+      --danger: #f87171;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 1.5rem 2rem 2rem;
+    }
+    .nav-top { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; }
+    .nav-top a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; }
+    .nav-top a:hover { color: var(--accent); }
+    .logo-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; }
+    .logo-row img { height: 48px; width: auto; }
+    .logo-row h1 { font-size: 1.75rem; font-weight: 700; margin: 0; color: var(--text); letter-spacing: -0.02em; }
+    .hero {
+      background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-elevated) 100%);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+    }
+    .hero h2 { font-size: 1.1rem; font-weight: 600; margin: 0 0 0.35rem; color: var(--text); }
+    .hero p { margin: 0; color: var(--text-muted); font-size: 0.9rem; line-height: 1.5; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.25rem; }
+    .card {
+      display: block;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.5rem;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .card:hover { border-color: var(--accent); box-shadow: 0 8px 32px rgba(56, 189, 248, 0.12); }
+    .card-icon { width: 44px; height: 44px; border-radius: 12px; background: var(--accent-dim); color: var(--accent); display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; font-size: 1.25rem; }
+    .card h3 { font-size: 1rem; font-weight: 600; margin: 0 0 0.35rem; }
+    .card p { margin: 0; color: var(--text-muted); font-size: 0.85rem; line-height: 1.45; }
+    .card-arrow { float: right; color: var(--accent); font-size: 1.25rem; margin-top: -0.25rem; }
+    .stats { display: flex; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap; }
+    .stat { background: var(--bg-elevated); border-radius: 10px; padding: 0.75rem 1rem; font-size: 0.85rem; color: var(--text-muted); }
+    .stat strong { color: var(--text); margin-right: 0.35rem; }
+  </style>
+</head>
+<body>
+  <nav class="nav-top">
+    <a href="index.html">Onboarding</a>
+    <span style="color: var(--border);">·</span>
+    <span style="color: var(--text-muted); font-size: 0.9rem;">Dashboard</span>
+  </nav>
+
+  <div class="logo-row">
+    <img src="ponyclaw-logo.svg" alt="PonyClaw" width="48" height="48">
+    <h1>PonyClaw Dashboard</h1>
+  </div>
+
+  <section class="hero">
+    <h2>Automation hub</h2>
+    <p>Manage recurring tasks, socials &amp; email, and x402 micropayments from one place.</p>
+    <div class="stats">
+      <span class="stat"><strong>12</strong> active tasks</span>
+      <span class="stat"><strong>3</strong> connected accounts</span>
+      <span class="stat"><strong>387</strong> x402 spent this week</span>
+    </div>
+  </section>
+
+  <div class="cards">
+    <a href="ponyclaw-regular-tasks.html" class="card">
+      <div class="card-icon">⏱</div>
+      <span class="card-arrow">→</span>
+      <h3>Regular tasks</h3>
+      <p>Recurring jobs: schedule, status, run history. Test and edit any task.</p>
+    </a>
+    <a href="ponyclaw-socials.html" class="card">
+      <div class="card-icon">📱</div>
+      <span class="card-arrow">→</span>
+      <h3>Socials &amp; automation</h3>
+      <p>Monitor and manage Twitter, Telegram, and Email. Inbox and automation rules.</p>
+    </a>
+    <a href="x402-dashboard.html" class="card">
+      <div class="card-icon">₿</div>
+      <span class="card-arrow">→</span>
+      <h3>x402 micropayments</h3>
+      <p>Spending by service, limit used, Stacker News, Yalls, Zap.Stream, and more.</p>
+    </a>
+  </div>
+</body>
+</html>

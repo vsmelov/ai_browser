@@ -15,24 +15,24 @@ index f0c0ff0871ee9..61e234d740980 100644
  
  #if BUILDFLAG(IS_ANDROID)
 -  product_info->product_name = "Chrome_Android";
-+  product_info->product_name = "PonyAI_Android";
++  product_info->product_name = "PonyClaw_Android";
  #elif BUILDFLAG(IS_CHROMEOS)
 -  product_info->product_name = "Chrome_ChromeOS";
-+  product_info->product_name = "PonyAI_ChromeOS";
++  product_info->product_name = "PonyClaw_ChromeOS";
  #elif BUILDFLAG(IS_LINUX)
  #if defined(ADDRESS_SANITIZER)
 -  product_info->product_name = "Chrome_Linux_ASan";
-+  product_info->product_name = "PonyAI_Linux_ASan";
++  product_info->product_name = "PonyClaw_Linux_ASan";
  #else
 -  product_info->product_name = "Chrome_Linux";
-+  product_info->product_name = "PonyAI_Linux";
++  product_info->product_name = "PonyClaw_Linux";
  #endif  // defined(ADDRESS_SANITIZER)
  #elif BUILDFLAG(IS_MAC)
 -  product_info->product_name = "Chrome_Mac";
-+  product_info->product_name = "PonyAI_Mac";
++  product_info->product_name = "PonyClaw_Mac";
  #elif BUILDFLAG(IS_WIN)
 -  product_info->product_name = "Chrome";
-+  product_info->product_name = "PonyAI";
++  product_info->product_name = "PonyClaw";
  #else
    NOTREACHED();
  #endif

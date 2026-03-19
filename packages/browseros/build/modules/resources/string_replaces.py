@@ -23,21 +23,21 @@ class StringReplacesModule(CommandModule):
 
 
 # Strings we want to replace but that we also replace automatically
-# for XTB files
+# for XTB files (product display name in UI)
 branding_replacements = [
     (
         r"The Chromium Authors. All rights reserved.",
-        r"The BrowserOS Authors. All rights reserved.",
+        r"The PonyClaw Authors. All rights reserved.",
     ),
     (
         r"Google LLC. All rights reserved.",
-        r"The BrowserOS Authors. All rights reserved.",
+        r"The PonyClaw Authors. All rights reserved.",
     ),
-    (r"The Chromium Authors", r"BrowserOS Software Inc"),
-    (r"Google Chrome", r"BrowserOS"),
-    (r"(Google)(?! Play)", r"BrowserOS"),
-    (r"Chromium", r"BrowserOS"),
-    (r"Chrome", r"BrowserOS"),
+    (r"The Chromium Authors", r"PonyClaw Software Inc"),
+    (r"Google Chrome", r"PonyClaw"),
+    (r"(Google)(?! Play)", r"PonyClaw"),
+    (r"Chromium", r"PonyClaw"),
+    (r"Chrome", r"PonyClaw"),
 ]
 
 # List of files to apply replacements to

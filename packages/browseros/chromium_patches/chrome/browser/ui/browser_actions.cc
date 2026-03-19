@@ -90,7 +90,7 @@ index 96ccc8d0a6acc..9c446a5e041a9 100644
 +                        infobars::InfoBarDelegate::
 +                            BROWSEROS_AGENT_INSTALLING_INFOBAR_DELEGATE,
 +                        nullptr,
-+                        u"PonyAI Agent is installing/updating. Please try again shortly.",
++                        u"PonyClaw Agent is installing/updating. Please try again shortly.",
 +                        /*auto_expire=*/true,
 +                        /*should_animate=*/true,
 +                        /*closeable=*/true);
@@ -125,7 +125,7 @@ index 96ccc8d0a6acc..9c446a5e041a9 100644
 +              bwi))
 +          .SetActionId(kActionBrowserOSAgent)
 +          .SetText(u"Pony")
-+          .SetTooltipText(u"Ask PonyAI")
++          .SetTooltipText(u"Ask PonyClaw")
 +          .SetImage(ui::ImageModel::FromResourceId(IDR_PRODUCT_LOGO_16))
 +          .SetProperty(actions::kActionItemPinnableKey,
 +                       std::underlying_type_t<actions::ActionPinnableState>(

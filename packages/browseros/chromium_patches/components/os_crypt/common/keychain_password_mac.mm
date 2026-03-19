@@ -8,9 +8,9 @@ index caa0e420956a3..d60a67a8bacb7 100644
  #else
 -const char kDefaultServiceName[] = "Chromium Safe Storage";
 -const char kDefaultAccountName[] = "Chromium";
-+// PonyAI: custom keychain service name
-+const char kDefaultServiceName[] = "PonyAI Safe Storage";
-+const char kDefaultAccountName[] = "PonyAI";
++// PonyClaw: custom keychain service name
++const char kDefaultServiceName[] = "PonyClaw Safe Storage";
++const char kDefaultAccountName[] = "PonyClaw";
  #endif
  
  // These values are persisted to logs. Entries should not be renumbered and

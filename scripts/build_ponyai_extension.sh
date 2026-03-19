@@ -25,25 +25,25 @@ EXT_DEST="$REPO_ROOT/packages/browseros/resources/extensions"
 AGENT_DIR="${BROWSEROS_AGENT_DIR:-}"
 SUBMODULE_AGENT="$REPO_ROOT/packages/browseros-agent"
 
-# --- Rebrand (commented out): uncomment when building with PonyAI branding ---
+# --- Rebrand (commented out): uncomment when building with PonyClaw branding ---
 # apply_rebrand() {
 #   local agent_app="$1"
-#   echo "Applying PonyAI rebrand (display strings and URLs only) ..."
-#   sed -i.bak "s/default_title: 'Ask BrowserOS'/default_title: 'Ask PonyAI'/" "$agent_app/wxt.config.ts"
+#   echo "Applying PonyClaw rebrand (display strings and URLs only) ..."
+#   sed -i.bak "s/default_title: 'Ask BrowserOS'/default_title: 'Ask PonyClaw'/" "$agent_app/wxt.config.ts"
 #   sed -i.bak "s|cdn.browseros.com|cdn.ponyai.com|g" "$agent_app/wxt.config.ts"
 #   [[ -f "$agent_app/wxt.config.ts.bak" ]] && rm -f "$agent_app/wxt.config.ts.bak"
 #   sed -i.bak "s/browseros.com/ponyai.com/g" "$agent_app/lib/constants/productWebHost.ts"
 #   sed -i.bak "s/browseros.com/ponyai.com/g; s/browseros-ai/ponyai-ai/g" "$agent_app/lib/constants/productUrls.ts"
-#   sed -i.bak "s/name: 'BrowserOS'/name: 'PonyAI'/; s|api.browseros.com|api.ponyai.com|g" "$agent_app/lib/llm-providers/storage.ts"
-#   sed -i.bak "s|docs.browseros.com|docs.ponyai.com|g; s/ label: 'BrowserOS'/ label: 'PonyAI'/" "$agent_app/lib/llm-providers/providerTemplates.ts"
-#   sed -i.bak 's/alt="BrowserOS"/alt="PonyAI"/g' "$agent_app/lib/llm-providers/providerIcons.tsx"
+#   sed -i.bak "s/name: 'BrowserOS'/name: 'PonyClaw'/; s|api.browseros.com|api.ponyai.com|g" "$agent_app/lib/llm-providers/storage.ts"
+#   sed -i.bak "s|docs.browseros.com|docs.ponyai.com|g; s/ label: 'BrowserOS'/ label: 'PonyClaw'/" "$agent_app/lib/llm-providers/providerTemplates.ts"
+#   sed -i.bak 's/alt="BrowserOS"/alt="PonyClaw"/g' "$agent_app/lib/llm-providers/providerIcons.tsx"
 #   for f in "$agent_app/entrypoints/onboarding/index/OnboardingHeader.tsx" "$agent_app/entrypoints/onboarding/steps/StepOne.tsx" \
 #            "$agent_app/entrypoints/onboarding/index/Onboarding.tsx" "$agent_app/entrypoints/onboarding/features/Features.tsx" \
 #            "$agent_app/entrypoints/sidepanel/index/ChatError.tsx" "$agent_app/entrypoints/sidepanel/index/JtbdPopup.tsx" \
 #            "$agent_app/entrypoints/sidepanel/index/chatTypes.ts" "$agent_app/entrypoints/newtab/index/NewTabBranding.tsx" \
 #            "$agent_app/entrypoints/app/ai-settings/LlmProvidersHeader.tsx" "$agent_app/entrypoints/newtab/personalize/Personalize.tsx" \
 #            "$agent_app/lib/changelog/changelog-config.ts"; do
-#     [[ -f "$f" ]] && sed -i.bak 's/BrowserOS/PonyAI/g; s|browseros.com|ponyai.com|g; s|docs.browseros.com|docs.ponyai.com|g' "$f" && rm -f "${f}.bak"
+#     [[ -f "$f" ]] && sed -i.bak 's/BrowserOS/PonyClaw/g; s|browseros.com|ponyai.com|g; s|docs.browseros.com|docs.ponyai.com|g' "$f" && rm -f "${f}.bak"
 #   done
 #   echo "Rebrand applied."
 # }
@@ -53,7 +53,7 @@ SUBMODULE_AGENT="$REPO_ROOT/packages/browseros-agent"
 #   local icon_dir="$agent_app/public/icon"
 #   [[ -d "$agent_app/public" ]] || mkdir -p "$agent_app/public"
 #   mkdir -p "$icon_dir"
-#   echo "Copying PonyAI icons to $icon_dir ..."
+#   echo "Copying PonyClaw icons to $icon_dir ..."
 #   for size in 16 32 48 128; do
 #     if [[ -f "$ICONS_SRC/product_logo_${size}.png" ]]; then
 #       cp "$ICONS_SRC/product_logo_${size}.png" "$icon_dir/${size}.png"
@@ -71,7 +71,7 @@ patch_sourcemap_off() {
 }
 
 main() {
-  echo "=== Build PonyAI extension (Agent) ==="
+  echo "=== Build PonyClaw extension (Agent) ==="
   echo "Destination: $EXT_DEST"
   echo ""
 
@@ -135,10 +135,10 @@ main() {
   echo ""
 
   # --- Rebrand steps commented out (build as-is) ---
-  # echo "--- Step 2/8: Apply PonyAI rebrand ---"
+  # echo "--- Step 2/8: Apply PonyClaw rebrand ---"
   # apply_rebrand "$agent_app"
   # echo ""
-  # echo "--- Step 3/8: Copy PonyAI icons ---"
+  # echo "--- Step 3/8: Copy PonyClaw icons ---"
   # copy_icons "$agent_app"
   # echo ""
 

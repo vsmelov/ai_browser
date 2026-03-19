@@ -43,6 +43,8 @@
 
 4. Start automating!
 
+**Building from source?** → **[Main build instructions (order, commands, links)](docs/BUILD_MAIN.md)** — один документ: что в каком порядке собирать и как запускать.
+
 ## What makes BrowserOS special
 - 🏠 Feels like home — same Chrome interface, all your extensions just work
 - 🤖 AI agents that run on YOUR browser, not in the cloud
